@@ -1,0 +1,113 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  # ── Job 1: tests unitarios (rápido, sin base de datos) ─────────────────────
+  unit-tests:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run pytest with coverage
+        run: pytest --cov=src --cov-report=term-missing tests/ -v
+
+  # ── Job 2: smoke test completo del pipeline (con Postgres) ─────────────────
+  pipeline-smoke:
+    name: Pipeline smoke test
+    runs-on: ubuntu-latest
+    needs: unit-tests
+
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_DB: tumipay
+          POSTGRES_USER: etl_user
+          POSTGRES_PASSWORD: tumipay
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U etl_user -d tumipay"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install PostgreSQL client
+        run: sudo apt-get install -y postgresql-client
+
+      - name: Init database (DDL + vistas + roles)
+        env:
+          PGPASSWORD: tumipay
+        run: |
+          for f in $(ls sql/*.sql | sort); do
+            echo "▶ $f"
+            psql -h localhost -U etl_user -d tumipay -f "$f"
+          done
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run ETL pipeline
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
+          POSTGRES_DB: tumipay
+          POSTGRES_USER: etl_user
+          POSTGRES_PASSWORD: tumipay
+          DATA_RAW_PATH: ${{ github.workspace }}/data/raw
+          LOG_LEVEL: INFO
+          FECHA_CORTE: auto
+        run: python -m src.main
+
+      - name: Verify pipeline results
+        env:
+          PGPASSWORD: tumipay
+        run: |
+          echo "=== ETL run ==="
+          psql -h localhost -U etl_user -d tumipay -c \
+            "SELECT run_id, status, filas_dq_errors, filas_fact_credito, filas_fact_pago
+             FROM dq.etl_runs ORDER BY started_at DESC LIMIT 1;"
+
+          echo "=== Verificar status = SUCCESS ==="
+          STATUS=$(psql -h localhost -U etl_user -d tumipay -t -A -c \
+            "SELECT status FROM dq.etl_runs ORDER BY started_at DESC LIMIT 1;")
+          [ "$STATUS" = "SUCCESS" ] || { echo "FAIL: status=$STATUS"; exit 1; }
+
+          echo "=== DQ errors por regla ==="
+          psql -h localhost -U etl_user -d tumipay -c \
+            "SELECT regla_id, tabla_origen, severidad, COUNT(*) AS n
+             FROM dq.dq_errors GROUP BY 1,2,3 ORDER BY 1;"
+
+          echo "=== Verificar dq_errors entre 10 y 15 ==="
+          DQ=$(psql -h localhost -U etl_user -d tumipay -t -A -c \
+            "SELECT COUNT(*) FROM dq.dq_errors;")
+          [ "$DQ" -ge 10 ] && [ "$DQ" -le 15 ] \
+            || { echo "FAIL: dq_errors=$DQ, esperado 10-15"; exit 1; }
+
+          echo "=== KPI resumen ==="
+          psql -h localhost -U etl_user -d tumipay -c \
+            "SELECT * FROM bi.vw_kpi_resumen;"
+
+          echo "✓ Pipeline verificado: status=SUCCESS, dq_errors=$DQ"

@@ -20,8 +20,8 @@ htmlcov/
 # Linting
 .ruff_cache/
 
-# Datos crudos (no commitear CSVs reales)
-data/raw/*.csv
+# Datos crudos — los CSV sintéticos SÍ se commitean (no son datos reales)
+# data/raw/*.csv
 data/output/*
 !data/output/.gitkeep
 

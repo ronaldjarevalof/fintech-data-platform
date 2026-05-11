@@ -1,5 +1,7 @@
 # TUMIPAY Data Platform
 
+![CI](https://github.com/ronald-arevalo/tumipay-data-platform/actions/workflows/ci.yml/badge.svg)
+
 Solución de datos para TUMIPAY (fintech) — entregable de la prueba técnica para el rol **Data Platform Engineer Lead** en Revolutiva.
 
 **Candidato:** Ronald Arévalo
@@ -19,7 +21,8 @@ Consolida tres fuentes CSV (clientes, créditos, pagos) en un modelo dimensional
 ## Requisitos
 
 - Docker Desktop con Compose V2
-- Los tres archivos CSV en `data/raw/` (no incluidos en el repo)
+
+Los tres archivos CSV de datos sintéticos están incluidos en `data/raw/` — no se requiere ningún paso previo de datos.
 
 ---
 
@@ -49,7 +52,7 @@ El ETL imprime logs JSON con `run_id` en cada paso:
 
 ```
 {"event": "pipeline_start", "run_id": "...", ...}
-{"event": "step_extract_done", "clientes": 121, "creditos": 263, "pagos": 1203, ...}
+{"event": "step_extract_done", "clientes": 200, "creditos": 381, "pagos": 1801, ...}
 {"event": "step_validate_done", "dq_errors": 13, "creditos_validos": 248, ...}
 {"event": "pipeline_success", "elapsed_seconds": 12.4, ...}
 ```
@@ -74,11 +77,14 @@ SELECT * FROM bi.vw_kpi_resumen;
 ## Estructura del proyecto
 
 ```
+├── .github/workflows/
+│   └── ci.yml              # CI: unit tests + pipeline smoke test con Postgres
 ├── docker-compose.yml      # Postgres 18 + ETL + pgAdmin
 ├── Dockerfile              # Python 3.11-slim
 ├── requirements.txt
+├── pyproject.toml          # Configuración pytest, coverage y ruff
 ├── .env.example            # Variables necesarias
-├── data/raw/               # CSVs fuente (no en el repo)
+├── data/raw/               # CSVs sintéticos (200 clientes, 381 créditos, 1801 pagos)
 ├── sql/                    # DDL y vistas (01–09, ejecutados en orden)
 │   ├── 01_schemas.sql      # Esquemas: raw, stg, dwh, bi, dq
 │   ├── 02_ddl_raw.sql      # Tablas ingesta cruda (todo TEXT)
@@ -128,19 +134,28 @@ Disponible en `http://localhost:8080`
 
 ---
 
-## Tests
+## Tests y CI
+
+El repositorio tiene dos niveles de verificación automatizada:
+
+**CI en GitHub Actions** (se ejecuta en cada push):
+- `unit-tests` — corre `pytest --cov=src` sin base de datos
+- `pipeline-smoke` — levanta Postgres 18, aplica todos los scripts SQL, ejecuta el pipeline completo y verifica que `status = SUCCESS` y `dq_errors` tenga entre 10 y 15 registros
+
+**Local con virtualenv:**
 
 ```bash
-# Desde el host con virtualenv
 pip install -r requirements.txt
-pytest tests/ -v
+pytest --cov=src --cov-report=term-missing tests/ -v
 ```
 
 O dentro del contenedor ETL:
 
 ```bash
-docker compose run --rm etl pytest tests/ -v
+docker compose run --rm etl pytest --cov=src tests/ -v
 ```
+
+La configuración de pytest, coverage y ruff está en `pyproject.toml`.
 
 ---
 
@@ -160,7 +175,7 @@ docker compose run --rm etl pytest tests/ -v
 
 - SCD-1 en todas las dimensiones (no hay historial de cambios)
 - Carga full-load: trunca y recarga en cada ejecución
-- `flag_doc_duplicado` en clientes detecta el duplicado real de C0001/C0121 pero no bloquea al cliente; la decisión de negocio sobre cuál es el válido está fuera del scope del pipeline
+- `flag_doc_duplicado` en clientes detecta el duplicado real de C0001/C0195 pero no bloquea al cliente; la decisión de negocio sobre cuál es el válido está fuera del scope del pipeline
 
 ---
 
