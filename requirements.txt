@@ -1,0 +1,8 @@
+pandas>=2.0
+SQLAlchemy>=2.0
+psycopg2-binary
+python-dotenv
+structlog
+pytest
+pytest-cov
+ruff

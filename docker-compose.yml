@@ -1,0 +1,49 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: tumipay_postgres
+    env_file: .env
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - tumipay_net
+
+  etl:
+    build: .
+    container_name: tumipay_etl
+    env_file: .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./data:/app/data
+    networks:
+      - tumipay_net
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: tumipay_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@tumipay.local}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin}
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres
+    networks:
+      - tumipay_net
+
+volumes:
+  postgres_data:
+
+networks:
+  tumipay_net:
+    driver: bridge

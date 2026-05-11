@@ -1,0 +1,38 @@
+# Variables de entorno con secretos
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Linting
+.ruff_cache/
+
+# Datos crudos (no commitear CSVs reales)
+data/raw/*.csv
+data/output/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
