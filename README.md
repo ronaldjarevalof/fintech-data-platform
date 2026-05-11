@@ -2,7 +2,7 @@
 
 ![CI](https://github.com/ronald-arevalo/fintech-data-platform/actions/workflows/ci.yml/badge.svg)
 
-Solución de datos para FINTECH (fintech) — entregable de la prueba técnica para el rol **Data Platform Engineer Lead** en Revolutiva.
+Solución de datos para FINTECH — entregable de la prueba técnica para el rol **Data Platform Engineer Lead** en Revolutiva.
 
 **Candidato:** Ronald Arévalo
 
@@ -170,6 +170,8 @@ La configuración de pytest, coverage y ruff está en `pyproject.toml`.
 **Por qué no dbt/Airflow/Spark:** La consigna dice explícitamente "no sobredimensionar". Esas herramientas viven en la propuesta de evolución AWS (Sección 10 del documento de diseño), no en el MVP entregado.
 
 **Todos los datos inválidos van a `dq_errors`:** Nunca se descarta un registro silenciosamente. Todo error queda registrado con payload JSONB completo y regla identificada.
+
+**`load_dwh` es atómico:** todos los TRUNCATE y todos los INSERT (dimensiones + hechos) ocurren dentro de una única transacción SQLAlchemy. Si cualquier paso falla, PostgreSQL hace rollback automático — el DWH nunca queda vacío ni parcialmente cargado.
 
 ---
 
