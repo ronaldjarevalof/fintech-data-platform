@@ -142,6 +142,8 @@ El repositorio tiene dos niveles de verificación automatizada:
 - `unit-tests` — corre `pytest --cov=src` sin base de datos
 - `pipeline-smoke` — levanta Postgres 18, aplica todos los scripts SQL, ejecuta el pipeline completo y verifica que `status = SUCCESS` y `dq_errors` tenga entre 10 y 15 registros
 
+El workflow no contiene passwords en texto claro. Usa `${{ secrets.POSTGRES_PASSWORD || 'fintech' }}`: si el secret `POSTGRES_PASSWORD` está configurado en el repo (`Settings → Secrets → Actions`) lo utiliza; si no, cae al valor de ejemplo `fintech`.
+
 **Local con virtualenv:**
 
 ```bash
