@@ -1,201 +1,122 @@
-cliente_id,tipo_documento,numero_documento,nombres,apellidos,email,telefono,fecha_registro,estado_cliente,ciudad,segmento,fecha_nacimiento,ingresos_mensuales
-C0001,CC,42868828,Andres,Salamanca,andres.salamanca@correo.com,3821668732,2024-11-23,Activo,Barranquilla,Pyme,1998-03-24,26211873
-C0002,CC,22575562,Beatriz,Bedoya,beatriz.bedoya@correo.com,3397226012,2023-01-28,Pendiente,Barranquilla,Pyme,1990-03-06,18456909
-C0003,CC,89089901,Helena,Zapata,helena.zapata@correo.com,3547295260,2024-12-15,Inactivo,Cartagena,Pyme,1983-12-17,26961350
-C0004,CC,23718431,Hernando,Zuluaga,hernando.zuluaga@correo.com,3415831819,2023-12-19,Bloqueado,Medellin,Retail,1992-01-31,4745263
-C0005,CC,60806024,Tatiana,Henao,tatiana.henao@correo.com,3319335534,2024-01-06,Pendiente,Medellin,Corporativo,1990-11-25,11337430
-C0006,CC,48840994,Jairo,Pacheco,jairo.pacheco@correo.com,3531831063,2023-10-12,Suspendido,Medellin,Pyme,1985-05-04,4889045
-C0007,CE,99949389,Lorena,Ospina,lorena.ospina@correo.com,3281691040,2024-09-15,Activo,Cartagena,Corporativo,1993-06-26,24436053
-C0008,NIT,843863022,Importadora Pacific SAS,,importadorapacificsas.contacto@empresa.com,3517507864,2023-08-13,Pendiente,Manizales,Retail,,10557945
-C0009,CC,52339391,David,Cifuentes,david.cifuentes@correo.com,3538538251,2024-08-03,Inactivo,Pereira,Retail,1997-03-16,3720921
-C0010,CC,29175900,Marcela,Cordoba,marcela.cordoba@correo.com,3967503414,2024-07-05,Pendiente,Cartagena,Pyme,1976-10-14,9775445
-C0011,CC,28566572,Lorena,Pacheco,lorena.pacheco@correo.com,3266661351,2023-04-23,Activo,Ibague,Retail,1971-11-10,4550413
-C0012,CC,89978790,Nicolas,Castano,nicolas.castano@correo.com,3182070937,2023-01-12,Pendiente,Manizales,Corporativo,1995-07-08,9936057
-C0013,CC,24972279,Margarita,Zuluaga,margarita.zuluaga@correo.com,3477187530,2023-01-04,Suspendido,Cartagena,Retail,1997-05-23,6806893
-C0014,CE,93926371,Tomas,Giraldo,tomas.giraldo@correo.com,3531682744,2023-07-23,Pendiente,Cartagena,Corporativo,1971-11-10,18534339
-C0015,CC,75579548,Fabian,Valencia,fabian.valencia@correo.com,3386149359,2023-09-03,Bloqueado,Bogota,Pyme,1967-08-08,13679613
-C0016,NIT,822992422,Soluciones Tech Colombia SAS,,solucionestechcolombiasas.contacto@empresa.com,3298550256,2023-05-09,Pendiente,Santa Marta,Retail,,3822386
-C0017,CC,45575298,Tatiana,Lopez,tatiana.lopez@correo.com,3351837852,2024-07-06,Inactivo,Ibague,Corporativo,1998-11-18,15698153
-C0018,CC,68800797,Diana,Posada,diana.posada@correo.com,3155377076,2023-09-11,Activo,Neiva,Corporativo,1975-01-30,16649361
-C0019,CC,40885476,William,Suarez,william.suarez@correo.com,3040728046,2024-12-25,Activo,Cucuta,Pyme,1993-04-23,1741284
-C0020,CC,54349361,Hugo,Cifuentes,hugo.cifuentes@correo.com,3382374753,2024-11-16,Bloqueado,Medellin,Corporativo,1986-10-11,9486110
-C0021,CE,87337818,Mario,Vargas,mario.vargas@correo.com,3123009833,2024-02-21,Suspendido,Manizales,Pyme,1973-07-17,27827459
-C0022,CC,,Lorena,Medina,lorena.medina@correo.com,3524665841,2023-03-04,Activo,Manizales,Corporativo,1983-01-23,3317683
-C0023,CC,81979055,Hernando,Nieto,hernando.nieto@correo.com,3320117988,2023-10-13,Inactivo,Manizales,Pyme,1985-10-02,15655998
-C0024,NIT,947726826,Servicios Integrales SAS,,serviciosintegralessas.contacto@empresa.com,3141726318,2023-01-16,Pendiente,Medellin,Pyme,,23382351
-C0025,CC,74606833,Pablo,Velez,pablo.velez@correo.com,3645594951,2024-01-24,Inactivo,Barranquilla,Retail,1965-02-05,3467477
-C0026,CC,84593961,Jimena,Medina,jimena.medina@correo.com,3317849494,2023-07-14,Inactivo,Pasto,Corporativo,1978-04-24,17829982
-C0027,CC,17672593,Mario,Valencia,mario.valencia@correo.com,3078159587,2024-06-27,Pendiente,Bogota,Corporativo,1972-01-24,17498367
-C0028,CE,19196777,Felipe,Monsalve,felipe.monsalve@correo.com,3943046464,2024-02-18,Inactivo,Cucuta,Pyme,1970-05-19,24156373
-C0029,CC,66267415,Fabian,Florez,fabian.florez@correo.com,3399889098,2023-11-20,Pendiente,Pasto,Corporativo,1976-09-12,20465868
-C0030,CC,63121477,Helena,Restrepo,helena.restrepo@correo.com,3111250299,2024-04-13,Bloqueado,Cali,Corporativo,1979-03-09,23159412
-C0031,CC,23419256,Adriana,Vargas,adriana.vargas@correo.com,3519233013,2023/09/29,Pendiente,Medellin,Corporativo,1970-12-11,8652271
-C0032,NIT,899194173,Importadora Pacific SAS,,importadorapacificsas.contacto@empresa.com,3492097999,2024-12-21,Pendiente,Cartagena,Pyme,,16203034
-C0033,CC,50181935,Jairo,Suarez,jairo.suarez@correo.com,3184252420,2023-09-28,Inactivo,Neiva,Corporativo,1970-03-07,4975786
-C0034,CC,91178885,Jose,Tamayo,jose.tamayo@correo.com,3477834855,2024-12-04,Inactivo,Barranquilla,Corporativo,1993-06-14,13005153
-C0035,CE,22388090,Ingrid,Duarte,ingrid.duarte@correo.com,3295511909,2023-01-04,Activo,Pasto,Retail,1979-12-18,10783847
-C0036,CC,84045292,Fernanda,Zapata,fernanda.zapata@correo.com,3283227889,2023-04-25,Activo,Santa Marta,Retail,1968-05-17,20320911
-C0037,CC,88183110,David,Posada,david.posada@correo.com,3515354599,2023-02-12,Inactivo,Ibague,Pyme,1978-10-30,-1500000
-C0038,CC,99514287,Gloria,Quevedo,gloria.quevedo@correo.com,3241774346,2024-02-21,Pendiente,Medellin,Retail,1992-11-03,27676357
-C0039,CC,65337219,Alejandro,Monsalve,alejandro.monsalve@correo.com,3345810056,2024-02-26,Bloqueado,Bogota,Pyme,2000-12-26,26215002
-C0040,NIT,988247930,Manufacturas del Valle SAS,,manufacturasdelvallesas.contacto@empresa.com,3371780854,2023-08-16,Suspendido,Medellin,Retail,,2799382
-C0041,CC,39920292,Jimena,Pacheco,jimena.pacheco@correo.com,3147463522,2023-12-03,Suspendido,Bogota,Corporativo,1977-07-01,7980360
-C0042,CE,63643924,Carolina,Morales,carolina.morales@correo.com,3287925434,2023-04-29,Activo,Pasto,Corporativo,1976-09-19,12611545
-C0043,CC,90070438,Beatriz,Giraldo,beatriz.giraldo@correo.com,3825521714,2024-03-22,Bloqueado,Pereira,Retail,1992-03-12,25945915
-C0044,CC,35511941,Sandra,Vargas,sandra.vargas@correo.com,3836445607,2023-01-02,Suspendido,Cartagena,Pyme,1988-04-28,25282887
-C0045,CC,99152472,Nathalia,Escobar,nathalia.escobar@correo.com,3150308572,2023-11-18,EN REVISION,Neiva,Retail,1994-10-04,22409625
-C0046,CC,53779528,Diana,Pizarro,diana.pizarro@correo.com,3699245317,2023-05-11,Pendiente,Pereira,Corporativo,1973-08-10,11420542
-C0047,CC,92613013,Diana,Monsalve,diana.monsalve@correo.com,3438210242,2023-01-01,Pendiente,Cucuta,Retail,1978-08-19,15125621
-C0048,NIT,955688478,Inversiones Capital SAS,,inversionescapitalsas.contacto@empresa.com,3738682516,2024-03-28,Suspendido,Cucuta,Corporativo,,12312889
-C0049,CE,98429450,Natalia,Lopez,natalia.lopez@correo.com,3351663795,2023-12-10,Pendiente,Medellin,Retail,1969-03-11,18795699
-C0050,CC,29777514,Alejandro,Nieto,alejandro.nieto@correo.com,3171124923,2024-09-17,Suspendido,Bogota,Pyme,2003-02-13,9715552
-C0051,CC,36096655,Sandra,Vargas,sandra.vargas@correo.com,3298054615,2024-02-14,Suspendido,Santa Marta,Corporativo,1975-12-12,14384179
-C0052,CC,67062156,Hugo,Giraldo,hugo.giraldo@correo.com,3843446826,2024-04-20,Pendiente,Barranquilla,Pyme,1967-04-03,24850924
-C0053,CC,72363359,Rafael,Ibarra,rafael.ibarra@correo.com,3792228802,2023-11-21,Pendiente,Pasto,Corporativo,1998-11-18,20254420
-C0054,CC,69849511,Pilar,Suarez,pilar.suarez@correo.com,3395585469,2024-04-05,Suspendido,Neiva,Pyme,1976-08-17,26452935
-C0055,CC,75041510,Margarita,Ramirez,margarita.ramirez@correo.com,3441473195,2023-03-21,Suspendido,Pasto,Pyme,1997-01-03,10713961
-C0056,NIT,890153387,Grupo Empresarial Andino SAS,,grupoempresarialandinosas.contacto@empresa.com,3361410126,2023-06-04,Inactivo,Bucaramanga,Corporativo,,4203737
-C0057,CC,18620650,Luis,Ospina,luis.ospina@correo.com,3037760841,2024-04-22,Pendiente,Pereira,Retail,1983-08-27,12602537
-C0058,CC,12621534,Marcela,Acevedo,marcela.acevedo@correo.com,3462343121,2023-01-07,Suspendido,Monteria,Corporativo,1980-10-12,14263469
-C0059,CC,90967191,Tatiana,Sanchez,tatiana.sanchez@correo.com,3713895645,2023-10-07,Inactivo,Neiva,Pyme,1984-07-20,17882262
-C0060,CC,32151928,Karina,Bermudez,karina.bermudez@correo.com,3689442503,2024-06-30,Pendiente,Monteria,Retail,1966-03-18,5782478
-C0061,CC,28213276,Diego,Medina,diego.medina@correo.com,3538408562,2023-09-24,Activo,Monteria,Retail,1982-01-03,7597814
-C0062,CC,60885459,Karina,Zuluaga,karina.zuluaga@correo.com,3816990811,2024-04-26,Activo,Cartagena,Retail,1965-11-14,9964827
-C0063,CE,97477029,Helena,Escobar,helena.escobar@correo.com,3242016960,2023-01-21,Inactivo,Bogota,Pyme,1992-11-14,9797450
-C0064,NIT,927120579,Manufacturas del Valle SAS,,manufacturasdelvallesas.contacto@empresa.com,3459512272,2024-04-21,Inactivo,Pasto,Pyme,,20423678
-C0065,CC,25372341,Fabian,Galvis,fabian.galvis@correo.com,3487282128,2024-08-15,Activo,Villavicencio,Pyme,1966-02-25,11936734
-C0066,CC,20200074,Marcela,Nieto,marcela.nieto@correo.com,3490585882,2023-04-15,Inactivo,Cucuta,Corporativo,1996-04-10,22546762
-C0067,CC,15512205,Alejandro,Vargas,alejandro.vargas@correo.com,3511698142,2023-03-12,Bloqueado,Bucaramanga,Corporativo,1987-09-12,15873980
-C0068,CC,24165187,Pilar,Velez,pilar.velez@correo.com,3633640702,2024-12-25,Suspendido,Pereira,Retail,1971-11-12,22826697
-C0069,CC,74893936,Adriana,Sanchez,adriana.sanchez@correo.com,3321631697,2023-10-02,Pendiente,Manizales,Retail,1979-06-17,26029169
-C0070,CE,42730796,Sandra,Zapata,sandra.zapata@correo.com,3513852048,2024-11-15,Pendiente,Villavicencio,Retail,1982-01-01,20620981
-C0071,CC,34406132,Rosa,Valencia,rosa.valencia@correo.com,3947080140,2023-12-15,Bloqueado,Manizales,Pyme,1977-07-18,13405950
-C0072,NIT,938681071,Distribuciones Norte SAS,,distribucionesnortesas.contacto@empresa.com,3675575808,2025-01-07,activo,Barranquilla,Pyme,,9598565
-C0073,CC,96691619,Luis,Salcedo,luis.salcedo@correo.com,3364277800,2023-04-06,Activo,Santa Marta,Retail,1978-03-14,16538242
-C0074,CC,59529086,Kevin,Acevedo,kevin.acevedo@correo.com,3854398056,2024-03-11,Bloqueado,Manizales,Corporativo,1998-06-18,19314783
-C0075,CC,46361787,Esperanza,Cordoba,esperanza.cordoba@correo.com,3526046365,2025-01-08,Activo,Cartagena,Retail,1973-08-22,9235573
-C0076,CC,74988034,Hernando,Ospina,hernando.ospina@correo.com,3136054020,2024-09-03,Pendiente,Cartagena,Corporativo,1977-09-11,21283253
-C0077,CE,34084236,Helena,Posada,helena.posada@correo.com,3017318358,2023-05-10,Pendiente,Cartagena,Pyme,1977-04-22,25257158
-C0078,CC,95613415,Esperanza,Ibarra,esperanza.ibarra@correo.com,3774251933,2024-08-10,Activo,Monteria,Retail,1977-10-03,4942270
-C0079,CC,16895666,Karina,Monsalve,karina.monsalve@correo.com,3187446468,2024-02-15,Activo,Cartagena,Retail,1987-01-22,5328129
-C0080,NIT,840728909,Distribuciones Norte SAS,,distribucionesnortesas.contacto@empresa.com,3184903294,2023-09-12,Activo,Cali,Corporativo,,11695028
-C0081,CC,93002706,Adriana,Galvis,adriana.galvis@correo.com,3967556566,2024-03-29,Suspendido,Barranquilla,Corporativo,1978-05-04,14263368
-C0082,CC,18083974,Viviana,Pedraza,viviana.pedraza@correo.com,3498641164,2024-10-02,Inactivo,Cucuta,Corporativo,1974-06-20,4829726
-C0083,CC,33328859,Gabriel,Quevedo,gabriel.quevedo@correo.com,3973070585,2024-02-23,Activo,Ibague,Pyme,1985-03-18,6752363
-C0084,CE,48668783,Beatriz,Pacheco,beatriz.pacheco@correo.com,3345507920,2023-03-14,Suspendido,Santa Marta,Retail,1995-11-02,25088348
-C0085,CC,83089925,Pablo,Henao,pablo.henao@correo.com,3032269779,2023-05-26,Bloqueado,Barranquilla,Corporativo,1968-03-15,6499254
-C0086,CC,48736657,Adriana,Vargas,adriana.vargas@correo.com,3477172238,2024-12-17,Bloqueado,Manizales,Pyme,1983-01-21,17226894
-C0087,CC,90267122,Patricia,Florez,patricia.florez@correo.com,3022257687,2024-09-10,Bloqueado,Bogota,Retail,1976-03-26,26146868
-C0088,NIT,981005589,Importadora Pacific SAS,,importadorapacificsas.contacto@empresa.com,,2024-11-19,Activo,Monteria,Corporativo,,21200576
-C0089,CC,33513701,Viviana,Cifuentes,viviana.cifuentes@correo.com,3968503492,2023-10-12,Suspendido,Manizales,Corporativo,1973-02-21,23361030
-C0090,CC,56702542,Claudia,Salcedo,claudia.salcedo@correo.com,3676500726,2023-06-14,Activo,Pereira,Retail,1979-10-18,12272927
-C0091,CE,83832717,Diana,Bermudez,diana.bermudez@correo.com,3164247457,2023-09-16,Bloqueado,Bogota,Retail,1979-07-03,4454796
-C0092,CC,72005415,Jairo,Sanchez,jairo.sanchez@correo.com,3793940940,2024-01-06,Pendiente,Pereira,Pyme,1992-12-06,7794225
-C0093,CC,37321124,Margarita,Duarte,margarita.duarte@correo.com,3726297533,2024-03-24,Bloqueado,Cartagena,Corporativo,1996-04-28,5896074
-C0094,CC,42117961,Gustavo,Galvis,gustavo.galvis@correo.com,3622510327,2023-01-15,Pendiente,Santa Marta,Pyme,1989-10-10,11927044
-C0095,CC,71934487,David,Henao,david.henao@correo.com,3846698468,2025-01-03,Suspendido,Medellin,Corporativo,1978-02-03,6666413
-C0096,NIT,929519993,Inversiones Capital SAS,,inversionescapitalsas.contacto@empresa.com,3635583290,2023-05-29,Pendiente,Manizales,Pyme,,16827210
-C0097,CC,47077298,Felipe,Escobar,felipe.escobar@correo.com,3047962005,2023-10-01,Pendiente,Villavicencio,Retail,2001-10-22,12904320
-C0098,CE,87835998,Pilar,Acevedo,pilar.acevedo@correo.com,3554619335,2024-07-05,Suspendido,Pasto,Retail,1986-09-23,6486034
-C0099,CC,35320492,Patricia,Valencia,patricia.valencia@correo.com,3615858241,2023-08-28,Suspendido,Santa Marta,Pyme,2003-05-26,20686345
-C0100,CC,61167978,Liliana,Salcedo,liliana.salcedo@correo.com,3277416376,2024-05-22,Inactivo,Pereira,Corporativo,1966-08-30,23378127
-C0101,CC,69096899,Rosa,Giraldo,rosa.giraldo@correo.com,3697883261,2025-01-09,Activo,Medellin,Corporativo,1971-06-20,16831962
-C0102,CC,45570755,Diego,Salcedo,diego.salcedo@correo.com,3581621574,2024-10-27,Suspendido,Bucaramanga,Corporativo,1968-08-08,24743309
-C0103,CC,82613940,Karina,Velez,karina.velez@correo.com,3440532691,2024-10-08,Inactivo,Bogota,Corporativo,1995-09-14,3795819
-C0104,NIT,916493328,Soluciones Tech Colombia SAS,,solucionestechcolombiasas.contacto@empresa.com,3250193656,2024-03-30,Activo,Medellin,Corporativo,,25118656
-C0105,CE,17532195,Camilo,Valencia,camilo.valencia@correo.com,3865304649,2023-05-30,Suspendido,Cartagena,Retail,1975-12-15,14077579
-C0106,CC,20598952,Gabriel,Monsalve,gabriel.monsalve@correo.com,3241163805,2024-05-24,Inactivo,Cucuta,Retail,1991-02-28,22294029
-C0107,CC,71682508,Carolina,Restrepo,carolina.restrepo@correo.com,3831203129,2023-10-22,Suspendido,Cartagena,Corporativo,1995-05-25,1815325
-C0108,CC,88862539,Rafael,Guerrero,rafael.guerrero@correo.com,3436738452,2024-04-12,Bloqueado,Cartagena,Corporativo,2002-12-02,15737445
-C0109,CC,24314759,Rosa,Salcedo,rosa.salcedo@correo.com,3412944682,2024-08-11,Bloqueado,Barranquilla,Retail,1978-04-10,20690541
-C0110,CC,85957706,Ingrid,Aguirre,ingrid.aguirre@correo.com,3748412328,2024-09-12,Activo,Monteria,Corporativo,1998-06-05,27615804
-C0111,CC,39394291,Fabian,Guerrero,fabian.guerrero@correo.com,3294322033,2024-11-25,Bloqueado,Pasto,Pyme,1998-11-23,22333650
-C0112,NIT,968432003,Soluciones Tech Colombia SAS,,solucionestechcolombiasas.contacto@empresa.com,3958970845,2023-02-04,Suspendido,Pasto,Pyme,,11866067
-C0113,CC,53851498,Diego,Tamayo,diego.tamayo@correo.com,3859104566,2023-05-16,Inactivo,Santa Marta,Retail,2000-04-13,7393502
-C0114,CC,44489940,Pilar,Lopez,pilar.lopez@correo.com,3128892086,2023-04-28,Bloqueado,Neiva,Retail,1986-01-04,11403303
-C0115,CC,84801233,Felipe,Bermudez,felipe.bermudez@correo.com,3171040347,2023-09-28,Activo,Bucaramanga,Pyme,1989-01-26,14739725
-C0116,CC,88458327,Diana,Restrepo,diana.restrepo@correo.com,3713358751,2024-11-22,Activo,Pereira,Corporativo,1975-06-28,13964587
-C0117,CC,39711402,Veronica,Pedraza,veronica.pedraza@correo.com,3625659979,2024-12-18,Suspendido,Pasto,Pyme,1978-07-23,22820617
-C0118,CC,50851122,Camilo,Cifuentes,camilo.cifuentes@correo.com,3670887034,2024-07-04,Inactivo,Manizales,Pyme,1971-02-01,4761222
-C0119,CE,66254240,Diana,Sanchez,diana.sanchez@correo.com,3175679047,2024-02-29,Inactivo,Cucuta,Corporativo,1994-05-19,25880621
-C0120,NIT,875092173,Inversiones Capital SAS,,inversionescapitalsas.contacto@empresa.com,3741690501,2024-03-30,Inactivo,Bogota,Corporativo,,13932922
-C0121,CC,83076970,Daniela,Posada,daniela.posada@correo.com,3326395999,2024-02-12,Activo,Neiva,Corporativo,1977-05-18,13535097
-C0122,CC,96128115,Claudia,Ospina,claudia.ospina@correo.com,3285776373,2023-12-08,Activo,Pasto,Corporativo,1975-12-05,2216637
-C0123,CC,37804191,Diego,Suarez,diego.suarez@correo.com,3910380581,2023-06-01,Bloqueado,Cucuta,Pyme,2000-05-18,9318138
-C0124,CC,27447248,Rosa,Jaramillo,rosa.jaramillo@correo.com,3027690330,2024-11-07,Activo,Ibague,Retail,2003-11-13,7355151
-C0125,CC,89034501,Marcos,Quevedo,marcos.quevedo@correo.com,3680610004,2023-02-23,Bloqueado,Bucaramanga,Pyme,1970-09-08,7346732
-C0126,CE,73920651,Mario,Escobar,mario.escobar@correo.com,3839735904,2023-04-22,Pendiente,Manizales,Retail,1985-04-11,18721408
-C0127,CC,50484137,Mario,Ramirez,mario.ramirez@correo.com,3667213476,2024-05-05,Activo,Manizales,Corporativo,2003-01-04,2545242
-C0128,NIT,931605542,Soluciones Tech Colombia SAS,,solucionestechcolombiasas.contacto@empresa.com,3929909029,2023-11-26,Activo,Santa Marta,Retail,,3965939
-C0129,CC,93794475,Fernando,Salamanca,fernando.salamanca@correo.com,3849580505,2024-01-26,Bloqueado,Pasto,Corporativo,1991-10-19,19899788
-C0130,CC,67740376,Sofia,Galvis,sofia.galvis@correo.com,3367723010,2025-01-08,Pendiente,Medellin,Corporativo,2003-10-29,5339099
-C0131,CC,65541117,Sandra,Pacheco,sandra.pacheco@correo.com,3567279295,2025-01-17,Suspendido,Bucaramanga,Retail,1969-04-07,14879164
-C0132,CC,60237832,Diana,Restrepo,diana.restrepo@correo.com,3122513132,2023-04-04,Activo,Cali,Corporativo,2002-04-24,17413789
-C0133,CE,27463800,Daniela,Posada,daniela.posada@correo.com,3165137801,2024-07-29,Pendiente,Ibague,Pyme,1979-10-15,21178502
-C0134,CC,16904975,Rosa,Medina,rosa.medina@correo.com,3838553319,2023-04-17,Bloqueado,Cartagena,Corporativo,1990-12-04,11984045
-C0135,CC,40097636,Jairo,Salcedo,jairo.salcedo@correo.com,3487054398,2024-01-12,Pendiente,Monteria,Pyme,1970-02-26,13247876
-C0136,NIT,915188984,Importadora Pacific SAS,,importadorapacificsas.contacto@empresa.com,3813523729,2024-09-20,Pendiente,Monteria,Corporativo,,27250762
-C0137,CC,46677730,Ana,Monsalve,ana.monsalve@correo.com,3286010330,2023-01-07,Bloqueado,Santa Marta,Retail,1973-02-20,12902623
-C0138,CC,94982908,Claudia,Jaramillo,claudia.jaramillo@correo.com,3670887307,2023-08-09,Pendiente,Bogota,Pyme,1981-11-16,26535356
-C0139,CC,51827259,Fernanda,Posada,fernanda.posada@correo.com,3030881581,2024-09-02,Pendiente,Santa Marta,Retail,1968-10-23,27566277
-C0140,CE,16679008,Rodrigo,Pedraza,rodrigo.pedraza@correo.com,3791480362,2024-11-08,Suspendido,Pasto,Pyme,1984-01-09,10630256
-C0141,CC,38933176,Nathalia,Salamanca,nathalia.salamanca@correo.com,3489609131,2024-03-16,Bloqueado,Villavicencio,Corporativo,1969-12-22,5319081
-C0142,CC,16095815,Sofia,Urrego,sofia.urrego@correo.com,3438351344,2023-01-08,Activo,Barranquilla,Retail,1974-03-04,21610008
-C0143,CC,48848936,Rodrigo,Restrepo,rodrigo.restrepo@correo.com,3261030579,2024-03-16,Suspendido,Bucaramanga,Pyme,1972-11-18,1759372
-C0144,NIT,934288150,Importadora Pacific SAS,,importadorapacificsas.contacto@empresa.com,3068548403,2024-02-11,Activo,Ibague,Corporativo,,13383878
-C0145,CC,52018286,Rafael,Escobar,rafael.escobar@correo.com,3648858073,2024-12-27,Suspendido,Cucuta,Retail,1993-09-19,20740100
-C0146,CC,53589647,Nicolas,Bedoya,nicolas.bedoya@correo.com,3142657384,2023-04-01,Bloqueado,Cali,Corporativo,1984-08-04,16938290
-C0147,CE,80325062,Viviana,Bermudez,viviana.bermudez@correo.com,3220251466,2023-08-15,Bloqueado,Medellin,Retail,1979-12-10,11911086
-C0148,CC,36025314,Tomas,Morales,tomas.morales@correo.com,3244355473,2023-08-30,Inactivo,Neiva,Retail,1969-08-12,13280952
-C0149,CC,30517835,Gabriel,Galvis,gabriel.galvis@correo.com,3785663295,2024-10-05,Inactivo,Villavicencio,Corporativo,1987-03-02,4028436
-C0150,CC,96300902,Diana,Vargas,diana.vargas@correo.com,3172937522,2023-06-04,Bloqueado,Pasto,Corporativo,1984-09-23,12345068
-C0151,CC,46866075,Carolina,Urrego,carolina.urrego@correo.com,3770654852,2023-03-17,Pendiente,Cucuta,Pyme,1978-12-04,13309221
-C0152,NIT,815271307,Distribuciones Norte SAS,,distribucionesnortesas.contacto@empresa.com,3978057490,2024-09-21,Activo,Bucaramanga,Retail,,4074665
-C0153,CC,84399083,Patricia,Acevedo,patricia.acevedo@correo.com,3353154591,2024-08-08,Suspendido,Villavicencio,Corporativo,1994-03-29,2876493
-C0154,CE,18304547,Sofia,Jaramillo,sofia.jaramillo@correo.com,3215253567,2024-05-31,Activo,Manizales,Pyme,1993-12-26,13023859
-C0155,CC,68978194,Luis,Zapata,luis.zapata@correo.com,3461998170,2024-01-08,Inactivo,Ibague,Corporativo,1981-09-22,21961674
-C0156,CC,90246882,Margarita,Zuluaga,margarita.zuluaga@correo.com,3184888554,2023-03-09,Bloqueado,Bogota,Corporativo,1979-10-16,23219963
-C0157,CC,98122539,Jimena,Restrepo,jimena.restrepo@correo.com,3256952151,2023-03-25,Bloqueado,Neiva,Corporativo,1991-02-21,6545691
-C0158,CC,27307598,Carolina,Bermudez,carolina.bermudez@correo.com,3527152188,2024-07-26,Bloqueado,Cucuta,Corporativo,1981-11-24,4342698
-C0159,CC,78248169,Gustavo,Medina,gustavo.medina@correo.com,3575266178,2023-07-04,Bloqueado,Bucaramanga,Pyme,1974-08-11,13666758
-C0160,NIT,860812185,Importadora Pacific SAS,,importadorapacificsas.contacto@empresa.com,3882446804,2023-04-14,Bloqueado,Cali,Pyme,,4089230
-C0161,CE,92950779,Jairo,Zuluaga,jairo.zuluaga@correo.com,3932218290,2023-06-16,Inactivo,Cali,Corporativo,1973-02-10,14140621
-C0162,CC,58895439,Beatriz,Pizarro,beatriz.pizarro@correo.com,3741407343,2024-09-17,Suspendido,Pasto,Corporativo,1977-10-13,9470190
-C0163,CC,36040410,Kevin,Salcedo,kevin.salcedo@correo.com,3461254050,2024-04-17,Suspendido,Bucaramanga,Corporativo,1999-07-08,20640098
-C0164,CC,91156554,Fernanda,Nieto,fernanda.nieto@correo.com,3179244185,2024-01-16,Suspendido,Cali,Retail,1989-11-16,3250863
-C0165,CC,31516757,Kevin,Florez,kevin.florez@correo.com,3370549373,2024-03-23,Inactivo,Cartagena,Retail,1969-02-11,18725259
-C0166,CC,65686520,Veronica,Bedoya,veronica.bedoya@correo.com,3160319927,2023-08-30,Bloqueado,Bogota,Retail,1982-04-28,18344563
-C0167,CC,23298711,Andres,Valencia,andres.valencia@correo.com,3048504300,2023-05-30,Bloqueado,Monteria,Corporativo,1971-03-05,23309061
-C0168,NIT,986850400,Servicios Integrales SAS,,serviciosintegralessas.contacto@empresa.com,3910704803,2024-04-04,Suspendido,Monteria,Pyme,,26962483
-C0169,CC,38944689,Andres,Restrepo,andres.restrepo@correo.com,3148668339,2024-06-24,Pendiente,Monteria,Pyme,1983-12-27,19914814
-C0170,CC,16408822,Kevin,Henao,kevin.henao@correo.com,3177085942,2024-04-13,Pendiente,Barranquilla,Retail,1967-10-27,22939662
-C0171,CC,87181563,Gustavo,Morales,gustavo.morales@correo.com,3957354167,2024-03-15,Bloqueado,Barranquilla,Corporativo,1965-01-26,6317639
-C0172,CC,35140847,William,Pizarro,william.pizarro@correo.com,3883025444,2024-01-05,Pendiente,Pasto,Corporativo,1968-01-14,4372727
-C0173,CC,15843091,Nicolas,Salcedo,nicolas.salcedo@correo.com,3156278607,2023-01-17,Bloqueado,Pasto,Retail,1981-01-07,14025949
-C0174,CC,88101741,Mario,Giraldo,mario.giraldo@correo.com,3596274567,2023-12-27,Activo,Santa Marta,Retail,1989-06-29,5976483
-C0175,CE,74227366,David,Cordoba,david.cordoba@correo.com,3714963880,2025-01-03,Activo,Pasto,Pyme,1999-10-27,6024901
-C0176,NIT,854114170,Grupo Empresarial Andino SAS,,grupoempresarialandinosas.contacto@empresa.com,3863448727,2023-11-14,Bloqueado,Bogota,Pyme,,2906130
-C0177,CC,96825515,Ingrid,Cifuentes,ingrid.cifuentes@correo.com,3426706752,2024-11-02,Activo,Barranquilla,Retail,1979-11-22,13478065
-C0178,CC,69020451,Nathalia,Bermudez,nathalia.bermudez@correo.com,3759304469,2024-05-23,Inactivo,Neiva,Retail,1996-01-17,12876181
-C0179,CC,66975380,Natalia,Florez,natalia.florez@correo.com,3523770458,2024-07-12,Inactivo,Medellin,Retail,1978-03-07,21714978
-C0180,CC,51137177,Leonardo,Tamayo,leonardo.tamayo@correo.com,3757183837,2023-06-20,Suspendido,Manizales,Corporativo,1995-12-11,25580771
-C0181,CC,92523968,Beatriz,Guerrero,beatriz.guerrero@correo.com,3658762794,2023-03-18,Activo,Pereira,Retail,1995-02-09,22957029
-C0182,CE,91547054,Andres,Jaramillo,andres.jaramillo@correo.com,3558607028,2023-03-10,Inactivo,Pasto,Retail,1975-08-03,2667659
-C0183,CC,91214453,Viviana,Cifuentes,viviana.cifuentes@correo.com,3187030477,2024-01-16,Bloqueado,Cali,Corporativo,1984-11-30,16596896
-C0184,NIT,942125805,Manufacturas del Valle SAS,,manufacturasdelvallesas.contacto@empresa.com,3113478029,2023-09-13,Bloqueado,Bucaramanga,Retail,,12049024
-C0185,CC,61940566,Samuel,Ramirez,samuel.ramirez@correo.com,3738799154,2023-09-24,Bloqueado,Neiva,Corporativo,1996-07-31,5451403
-C0186,CC,36867482,Esperanza,Velez,esperanza.velez@correo.com,3721783073,2023-06-26,Suspendido,Medellin,Pyme,1996-12-31,3984774
-C0187,CC,18715975,Diana,Guerrero,diana.guerrero@correo.com,3258518659,2023-06-11,Bloqueado,Ibague,Corporativo,1996-12-06,11242941
-C0188,CC,28639738,Eduardo,Nieto,eduardo.nieto@correo.com,3572734149,2024-07-21,Bloqueado,Barranquilla,Retail,1990-09-03,2381945
-C0189,CE,18824561,Fabian,Florez,fabian.florez@correo.com,3687161840,2024-06-22,Suspendido,Cartagena,Retail,1983-06-06,25556299
-C0190,CC,96213226,Fernando,Valencia,fernando.valencia@correo.com,3895871687,2023-12-19,Pendiente,Medellin,Retail,1970-10-04,17130768
-C0191,CC,68065043,Rodrigo,Ibarra,rodrigo.ibarra@correo.com,3231738837,2023-06-06,Pendiente,Ibague,Pyme,1978-08-23,5666155
-C0192,NIT,990409895,Comercializadora Sur SAS,,comercializadorasursas.contacto@empresa.com,3436347197,2023-03-22,Bloqueado,Barranquilla,Retail,,18911320
-C0193,CC,92467167,Elizabeth,Urrego,elizabeth.urrego@correo.com,3232978158,2024-08-29,Inactivo,Ibague,Pyme,1991-01-18,18363556
-C0194,CC,15529005,Pilar,Vargas,pilar.vargas@correo.com,3945521514,2024-10-18,Activo,Monteria,Pyme,1999-08-03,4225386
-C0195,CC,42868828,Rodrigo,Vargas,rodrigo.vargas@correo.com,3496155337,2024-10-04,Suspendido,Cucuta,Corporativo,1989-06-22,2516226
-C0196,CE,64504816,Rebeca,Quevedo,rebeca.quevedo@correo.com,3674995086,2023-06-11,Activo,Cartagena,Retail,1984-09-20,3948568
-C0197,CC,91424562,Gloria,Zuluaga,andres.salamanca@correo.com,3563514837,2025-01-21,Bloqueado,Cali,Retail,2003-08-12,25604258
-C0198,CC,79119463,Rodrigo,Posada,rodrigo.posada@correo.com,3470343755,2024-04-22,Inactivo,Ibague,Pyme,1970-07-01,12207752
-C0199,CC,16792127,Fernando,Giraldo,fernando.giraldo@correo.com,3253947691,2023-09-12,Suspendido,Cartagena,Retail,2003-10-26,22148640
-C0200,NIT,850958203,Comercializadora Sur SAS,,comercializadorasursas.contacto@empresa.com,3751411602,2024-04-23,Pendiente,Villavicencio,Pyme,,18219017
+﻿cliente_id,tipo_documento,numero_documento,nombres,apellidos,email,telefono,fecha_registro,estado_cliente,ciudad,segmento,fecha_nacimiento,ingresos_mensuales
+C0001,CC,46913810,Jorge,Luna,jorge.luna@email.com,3223756669,2024-10-06,Activo,Ibague,Pyme,1971-06-05,2799828
+C0002,NIT,862454433,Comercial Andina SAS,,comercialandinasas.contacto@email.com,3836687537,2024-10-06,Bloqueado,Barranquilla,Pyme,,21572475
+C0003,CC,31429110,Karen,Mejia,karen.mejia@email.com,3547295260,2024-03-20,Inactivo,Pereira,Retail,1974-02-28,14548244
+C0004,NIT,892329911,Inversiones Prisma SAS,,inversionesprismasas.contacto@email.com,3071662963,2024-10-01,Activo,Cartagena,Retail,,20323409
+C0005,CC,87490893,Diana,Perez,diana.perez@email.com,3116150444,2024-04-26,Suspendido,Medellin,Retail,1974-07-13,14554919
+C0006,CC,31831063,Ricardo,Navas,ricardo.navas@email.com,3399949389,2024-05-16,Activo,Ibague,Corporativo,1977-09-04,19722760
+C0007,CC,72043515,Monica,Herrera,monica.herrera@email.com,3839476249,2024-06-15,Activo,Barranquilla,Retail,1984-02-25,15260856
+C0008,CC,,Lucia,Perez,lucia.perez@email.com,3538538251,2024-09-12,Bloqueado,Manizales,Retail,1981-11-18,6485216
+C0009,CC,88461803,Oscar,Moreno,oscar.moreno@email.com,3658586340,2024-04-22,Inactivo,Cucuta,Pyme,1974-01-29,3380963
+C0010,CC,94214382,Felipe,Vega,felipe.vega@email.com,3690048665,2024-02-02,Bloqueado,Cartagena,Corporativo,1990-12-30,19554131
+C0011,CC,25374874,Tomas,Leon,tomas.leon@email.com,3496028436,2024-06-23,Activo,Bucaramanga,Pyme,1977-02-04,17024441
+C0012,NIT,993835111,Inversiones Prisma SAS,,inversionesprismasas.contacto@email.com,3833978249,2024-09-16,Activo,Bucaramanga,Corporativo,,18834339
+C0013,CC,60185867,Daniela,Castro,daniela.castro@email.com,3881182864,2024-01-01,Pendiente,Pereira,Pyme,1970-11-16,5553657
+C0014,CC,42138745,Carlos,Luna,carlos.luna@email.com,3920570592,2024/03/20,Bloqueado,Medellin,Corporativo,1975-08-23,6108102
+C0015,CC,45575298,Valentina,Arias,valentina.arias@email.com,3638427073,2024-10-03,Inactivo,Bucaramanga,Pyme,2000-02-17,23606289
+C0016,CE,26240908,Jorge,Luna,jorge.luna@email.com,3155377076,2024-01-11,Pendiente,Cucuta,Retail,1996-05-25,9189269
+C0017,NIT,990009606,Comercial Andina SAS,,comercialandinasas.contacto@email.com,3319046318,2024-01-17,Suspendido,Medellin,Corporativo,,9786110
+C0018,CE,38754377,Sergio,Ruiz,sergio.ruiz@email.com,3987337818,2024-08-30,Inactivo,Manizales,Pyme,1978-07-17,4965048
+C0019,NIT,915709421,Inversiones Prisma SAS,,inversionesprismasas.contacto@email.com,3665177213,2024-08-27,Activo,Medellin,Retail,,15309728
+C0020,CC,43374088,Diana,Torres,diana.torres@email.com,3870211891,2024-03-12,Bloqueado,Cali,Pyme,1990-10-02,10182113
+C0021,CC,69476001,Mauricio,Leon,mauricio.leon@email.com,3116789850,2024-10-03,Activo,Medellin,Retail,1977-06-17,15436992
+C0022,CC,63826716,Lucia,Patino,lucia.patino@email.com,3260864911,2024-01-02,Bloqueado,Bucaramanga,Pyme,1982-10-18,15993775
+C0023,CE,30776478,Diana,Cardenas,diana.cardenas@email.com,3317849494,2024-10-23,Pendiente,Bogota,Corporativo,1984-01-26,-2500000
+C0024,NIT,927986942,Servicios Delta SAS,,serviciosdeltasas.contacto@email.com,3078159587,2024-02-11,Inactivo,Medellin,Corporativo,,4080388
+C0025,CC,64193837,Andres,Moreno,andres.moreno@email.com,3387701200,2024-01-21,Pendiente,Medellin,Pyme,1999-06-28,21384792
+C0026,CC,44999379,Diana,Beltran,diana.beltran@email.com,3542035886,2024-05-15,Bloqueado,Cali,Corporativo,1998-12-15,11866231
+C0027,CC,11250299,Camila,Arias,camila.arias@email.com,3923419256,2024-02-07,Pendiente,Barranquilla,Corporativo,1981-11-24,6244504
+C0028,CC,42787299,Ricardo,Cardenas,ricardo.cardenas@email.com,3268812137,2024-10-05,Suspendido,Ibague,Corporativo,1993-09-23,2062499
+C0029,CC,99038526,Andres,Ruiz,andres.ruiz@email.com,3425492573,2024-02-24,Pendiente,Cali,Pyme,1982-08-22,22094721
+C0030,CC,37326368,Tomas,Soto,tomas.soto@email.com,3477834855,2024-09-07,Suspendido,Bogota,Retail,1998-06-15,16012844
+C0031,CC,10475894,Sandra,Acosta,sandra.acosta@email.com,3295511909,2024-05-14,Inactivo,Manizales,Corporativo,2001-08-27,16150791
+C0032,CC,20099059,Lucia,Perez,lucia.perez@email.com,3283227889,2024-01-19,Suspendido,Ibague,Corporativo,1976-08-23,16221249
+C0033,CC,58942697,Lucia,Vega,lucia.vega@email.com,3058024342,2024-04-17,Inactivo,Medellin,Pyme,1995-02-12,15435762
+C0034,CC,41774346,Alejandro,Castro,alejandro.castro@email.com,3265337219,2024-01-13,Inactivo,Pereira,Pyme,2000-01-19,10127110
+C0035,CC,61343880,Alejandro,Patino,alejandro.patino@email.com,3739854548,2024-04-12,Bloqueado,Pereira,Pyme,1980-03-17,9280073
+C0036,NIT,851842883,Grupo Norte SAS,,gruponortesas.contacto@email.com,3547393469,2024-02-05,activo,Pereira,Corporativo,,18892818
+C0037,CC,13704481,Andres,Herrera,andres.herrera@email.com,3287925434,2024-05-15,Activo,Medellin,Corporativo,1989-06-29,13399334
+C0038,CC,68571795,Esteban,Ortega,esteban.ortega@email.com,3161700055,2024-10-22,Inactivo,Bucaramanga,Retail,2001-10-17,16431662
+C0039,NIT,944539606,Servicios Delta SAS,,serviciosdeltasas.contacto@email.com,3567887757,2024-02-05,Suspendido,Ibague,Pyme,,24059589
+C0040,CC,78064830,Miguel,Beltran,miguel.beltran@email.com,3653779528,2024-07-25,Suspendido,Cucuta,Retail,1978-08-10,15907837
+C0041,CE,33357554,Esteban,Moreno,esteban.moreno@email.com,3464502486,2024-10-07,Activo,Bucaramanga,Pyme,1979-06-06,16224652
+C0042,CC,72409658,Camila,Vargas,camila.vargas@email.com,3378608612,2024-08-30,Inactivo,Medellin,Pyme,1993-02-14,24075238
+C0043,CC,22534217,Elena,Acosta,elena.acosta@email.com,3351663795,2024-04-25,Inactivo,Cali,Retail,1972-01-28,10015552
+C0044,CC,71124923,Oscar,Soto,oscar.soto@email.com,3936096655,2024-07-15,Bloqueado,Cartagena,Retail,1976-08-14,23813653
+C0045,CC,67062156,Jorge,Castro,jorge.castro@email.com,3872350830,2024-01-26,Pendiente,Barranquilla,Retail,1990-06-23,6274117
+C0046,CC,69401199,Esteban,Quiroz,esteban.quiroz@email.com,3867276174,2024-10-07,Bloqueado,Cali,Corporativo,1991-04-18,16901835
+C0047,CC,95585469,Natalia,Acosta,natalia.acosta@email.com,3875041510,2024-05-02,Suspendido,Manizales,Retail,2002-01-03,11387445
+C0048,CC,52910691,Lucia,Leon,lucia.leon@email.com,3128572252,2024-03-18,Inactivo,Cartagena,Corporativo,1976-11-08,8979067
+C0049,NIT,909414123,Inversiones Prisma SAS,,correo_sin_arroba.com,3872535301,2024-07-31,Activo,Barranquilla,Pyme,,14868673
+C0050,CC,87267850,Monica,Franco,monica.franco@email.com,3057212267,2024-06-01,Bloqueado,Cartagena,Corporativo,2003-07-14,20125159
+C0051,CC,75529051,Jorge,Herrera,jorge.herrera@email.com,3675181765,2024-01-15,Bloqueado,Pereira,Corporativo,2000-06-19,15366616
+C0052,CE,27129912,Esteban,Leon,esteban.leon@email.com,3062884503,2024-10-30,Pendiente,Bogota,Retail,1998-10-31,16181858
+C0053,CE,34391257,Carlos,Herrera,carlos.herrera@email.com,3653936531,2024-04-18,Bloqueado,Pereira,Pyme,1987-01-03,11136742
+C0054,CE,43859311,Elena,Gomez,elena.gomez@email.com,3712601580,2024-10-03,Activo,Pereira,Retail,1999-03-01,4102450
+C0055,CC,14164775,Jorge,Torres,jorge.torres@email.com,3093394260,2024-03-19,Inactivo,Cali,Pyme,2000-01-12,5638272
+C0056,CC,72415804,Karen,Herrera,karen.herrera@email.com,3532520277,2024-02-28,Inactivo,Bucaramanga,Retail,1995-12-17,2661624
+C0057,CE,63238057,Karen,Torres,karen.torres@email.com,3189470029,2024-05-04,Activo,Bucaramanga,Corporativo,1996-12-07,5861933
+C0058,CC,56600900,Sergio,Mejia,sergio.mejia@email.com,3519255216,2024-09-16,Suspendido,Bogota,Pyme,1991-12-28,5341296
+C0059,CC,95306788,Lucia,Quiroz,lucia.quiroz@email.com,3730534124,2024-08-10,Inactivo,Cucuta,Corporativo,1982-02-12,22466589
+C0060,CE,72394301,Oscar,Quiroz,oscar.quiroz@email.com,3946023439,2024-06-14,Inactivo,Medellin,Pyme,1990-03-22,9982699
+C0061,CE,55150390,Laura,Franco,laura.franco@email.com,3534406132,2024-09-06,Inactivo,Pereira,Pyme,1985-04-08,11183781
+C0062,CC,84597009,Laura,Ortega,laura.ortega@email.com,3321490777,2024-05-03,EN REVISION,Manizales,Corporativo,1980-10-12,24973004
+C0063,CE,70152969,Mauricio,Mendez,mauricio.mendez@email.com,3149491631,2024-04-23,Bloqueado,Barranquilla,Pyme,1999-10-14,21313767
+C0064,CC,67110154,Hector,Leon,hector.leon@email.com,3557219209,2024-08-20,Suspendido,Bucaramanga,Pyme,1980-05-05,5848539
+C0065,CC,26046365,Hector,Leon,hector.leon@email.com,3235708194,2024-04-20,Bloqueado,Bucaramanga,Corporativo,1996-06-12,19403892
+C0066,CC,36054020,Miguel,Luna,miguel.luna@email.com,3534084236,2024-06-03,Activo,Cucuta,Retail,1982-04-22,3327253
+C0067,CC,26948946,Andrea,Acosta,andrea.acosta@email.com,3723769080,2024-01-07,Pendiente,Bucaramanga,Pyme,1991-06-23,16579680
+C0068,CC,43887075,Alejandro,Franco,alejandro.franco@email.com,3118770247,2024-07-24,Bloqueado,Medellin,Corporativo,1998-03-27,24833474
+C0069,NIT,840049920,Inversiones Prisma SAS,,inversionesprismasas.contacto@email.com,3143311626,2024-03-01,Pendiente,Cartagena,Corporativo,,21802697
+C0070,CC,80138498,Monica,Vargas,monica.vargas@email.com,3749910061,2024-10-28,Bloqueado,Bucaramanga,Corporativo,1997-11-09,3820993
+C0071,CC,37888820,Andrea,Torres,andrea.torres@email.com,3498641164,2024-02-11,Inactivo,Barranquilla,Retail,1994-10-05,4318759
+C0072,CE,70465583,Karen,Arias,karen.arias@email.com,3749092160,2024-01-17,Inactivo,Bucaramanga,Corporativo,1982-09-07,17034763
+C0073,NIT,862659224,Inversiones Prisma SAS,,inversionesprismasas.contacto@email.com,3998742485,2024-04-11,Bloqueado,Medellin,Corporativo,,9343353
+C0074,CC,29090631,Maria,Patino,maria.patino@email.com,3251286958,2024-10-18,Suspendido,Manizales,Retail,1991-01-10,24908198
+C0075,CE,46540265,Valentina,Leon,valentina.leon@email.com,,2024-02-11,Pendiente,Bogota,Pyme,2002-12-13,12615317
+C0076,CC,22257687,Jorge,Beltran,jorge.beltran@email.com,3988802305,2024-01-11,Suspendido,Ibague,Retail,2003-12-04,7678425
+C0077,CE,47333543,Felipe,Moreno,felipe.moreno@email.com,3695199362,2024-09-08,Activo,Manizales,Pyme,1988-04-26,12983973
+C0078,CC,31585546,Sandra,Mejia,sandra.mejia@email.com,3748683937,2024-07-24,Pendiente,Bogota,Pyme,1973-12-13,12353444
+C0079,CC,64247457,Alejandro,Ortega,alejandro.ortega@email.com,3098269682,2024-10-04,Bloqueado,Cartagena,Retail,1978-06-01,19195939
+C0080,CE,93940940,Camila,Acosta,camila.acosta@email.com,3037321124,2024-05-16,Pendiente,Cali,Pyme,1989-08-27,18064229
+C0081,CC,31257157,Miguel,Leon,miguel.leon@email.com,3084121929,2024-07-27,Activo,Barranquilla,Retail,1990-09-13,5741509
+C0082,CC,76890827,Sebastian,Perez,sebastian.perez@email.com,3478299645,2024-05-19,Bloqueado,Manizales,Pyme,1980-12-07,17127210
+C0083,CE,35583290,Sebastian,Arias,sebastian.arias@email.com,3828321839,2024-02-05,Suspendido,Cartagena,Pyme,1992-10-10,10764826
+C0084,CC,50071487,Elena,Moreno,elena.moreno@email.com,3998575748,2024-09-07,Inactivo,Manizales,Corporativo,1991-09-23,13380437
+C0085,CE,71115319,Sebastian,Pena,sebastian.pena@email.com,3342051937,2024-10-19,Bloqueado,Barranquilla,Pyme,1971-12-17,12476225
+C0086,CE,61818612,Tomas,Vega,tomas.vega@email.com,3276481885,2024-01-19,Inactivo,Cucuta,Corporativo,1984-11-22,5167677
+C0087,CE,23383077,Valentina,Vargas,valentina.vargas@email.com,3029348212,2024-07-28,Inactivo,Medellin,Pyme,1981-11-21,13160229
+C0088,CE,97219599,Maria,Pena,maria.pena@email.com,3861003997,2024-06-11,Bloqueado,Cucuta,Retail,1997-09-12,4095819
+C0089,CC,40532691,Hector,Gomez,hector.gomez@email.com,3623212812,2024-02-21,Bloqueado,Cali,Corporativo,1983-06-08,2771308
+C0090,NIT,815064390,Inversiones Prisma SAS,,inversionesprismasas.contacto@email.com,3560310319,2024-08-08,Inactivo,Barranquilla,Corporativo,,15626162
+C0091,CC,32814819,Felipe,Gomez,felipe.gomez@email.com,3961344226,2024-05-03,Bloqueado,Ibague,Retail,1980-06-01,17273623
+C0092,CE,44269370,Tomas,Mendez,tomas.mendez@email.com,3748605268,2024-10-06,Inactivo,Medellin,Pyme,1985-07-02,21515634
+C0093,CE,43567615,Camila,Cardenas,camila.cardenas@email.com,3361632653,2024-09-04,Activo,Barranquilla,Pyme,1995-08-28,13844670
+C0094,CC,12944682,Elena,Beltran,elena.beltran@email.com,3646840133,2024-01-05,Pendiente,Bogota,Corporativo,2003-06-05,18467401
+C0095,CC,40885967,Esteban,Vega,esteban.vega@email.com,3539394291,2024-04-07,Pendiente,Bucaramanga,Corporativo,2003-11-23,23918462
+C0096,CC,94322033,Andres,Soto,andres.soto@email.com,3051464269,2024-08-13,Activo,Ibague,Pyme,2002-11-07,6209448
+C0097,NIT,879218109,Inversiones Prisma SAS,,inversionesprismasas.contacto@email.com,3633574011,2024-04-12,Inactivo,Cucuta,Pyme,,19612449
+C0098,CC,32084778,Natalia,Quiroz,natalia.quiroz@email.com,3749613214,2024-06-22,Activo,Manizales,Retail,1976-04-25,9370372
+C0099,CE,84801233,Ricardo,Gomez,ricardo.gomez@email.com,3611868130,2024-05-15,Pendiente,Medellin,Pyme,1986-07-14,24376374
+C0100,CC,88458327,Monica,Quiroz,monica.quiroz@email.com,3524541967,2024-04-29,Bloqueado,Bogota,Corporativo,1995-03-09,12806064
+C0101,CC,96926431,Maria,Soto,maria.soto@email.com,3750559278,2024-07-28,Activo,Cali,Retail,1971-09-02,12012780
+C0102,CC,23044889,Jorge,Leon,jorge.leon@email.com,3262163160,2024-08-20,Suspendido,Cucuta,Pyme,1996-05-06,6984928
+C0103,CC,75679047,Esteban,Mejia,esteban.mejia@email.com,3414391105,2024-07-08,Inactivo,Manizales,Pyme,1980-08-04,13969724
+C0104,NIT,984060894,Inversiones Prisma SAS,,inversionesprismasas.contacto@email.com,3896547189,2024-07-02,Activo,Cartagena,Pyme,,8168918
+C0105,CE,22304198,Tomas,Torres,tomas.torres@email.com,3912866549,2024-01-26,Suspendido,Barranquilla,Retail,1995-04-30,8685556
+C0106,NIT,948769020,Servicios Delta SAS,,serviciosdeltasas.contacto@email.com,3938984499,2024-04-29,Suspendido,Cali,Corporativo,,1895145
+C0107,CC,27447248,Sergio,Herrera,sergio.herrera@email.com,3224754064,2024-01-14,Inactivo,Bogota,Pyme,1980-09-03,21558625
+C0108,CC,45617024,Carlos,Ruiz,carlos.ruiz@email.com,3680610004,2024-02-28,Activo,Manizales,Pyme,1986-03-29,19021408
+C0109,CE,77624084,Jorge,Arias,jorge.arias@email.com,3098436473,2024-09-23,Suspendido,Manizales,Corporativo,1971-05-26,3840961
+C0110,CE,67213476,Tomas,Rojas,tomas.rojas@email.com,3769533928,2024-02-07,Activo,Pereira,Corporativo,1976-08-27,4003930
+C0111,CC,61124122,Esteban,Ortega,esteban.ortega@email.com,3470896652,2024-09-15,Pendiente,Cartagena,Retail,2001-06-24,5639099
+C0112,CC,67723010,Camila,Luna,camila.luna@email.com,3655490631,2024-08-20,Bloqueado,Cartagena,Corporativo,1974-04-07,12287382
+C0113,CC,60237832,Paula,Beltran,paula.beltran@email.com,3719010480,2024-02-16,Activo,Medellin,Pyme,1974-05-02,14303953
+C0114,CC,88714010,Sergio,Leon,sergio.leon@email.com,3599927658,2024-03-03,Bloqueado,Pereira,Corporativo,2003-08-28,15991405
+C0115,CC,48604965,Esteban,Cardenas,esteban.cardenas@email.com,3523905032,2024-10-22,Pendiente,Barranquilla,Retail,1999-06-17,17979591
+C0116,CC,56991504,Alejandro,Leon,alejandro.leon@email.com,3525419645,2024-05-22,Pendiente,Barranquilla,Pyme,1995-03-01,22661589
+C0117,CC,91737913,Sebastian,Beltran,sebastian.beltran@email.com,3413886030,2024-04-02,Suspendido,Bucaramanga,Pyme,1985-09-30,2004876
+C0118,CC,86010330,Tomas,Salazar,tomas.salazar@email.com,3129042093,2024-01-16,Activo,Cucuta,Retail,1986-11-16,15887240
+C0119,CC,59667685,Miguel,Suarez,miguel.suarez@email.com,3586181117,2024-02-13,Activo,Cali,Retail,2003-11-04,22531209
+C0120,NIT,821899374,Inversiones Prisma SAS,,inversionesprismasas.contacto@email.com,3798843907,2024-08-05,Bloqueado,Ibague,Pyme,,15697700
+C0121,CC,46913810,Jorge,Luna,duplicado@email.com,3223756669,2024-11-01,Activo,Ibague,Retail,1971-06-05,2799828

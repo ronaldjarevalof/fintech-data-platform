@@ -52,7 +52,7 @@ El ETL imprime logs JSON con `run_id` en cada paso:
 
 ```
 {"event": "pipeline_start", "run_id": "...", ...}
-{"event": "step_extract_done", "clientes": 200, "creditos": 381, "pagos": 1801, ...}
+{"event": "step_extract_done", "clientes": 121, "creditos": 262, "pagos": 1202, ...}
 {"event": "step_validate_done", "dq_errors": 13, "creditos_validos": 248, ...}
 {"event": "pipeline_success", "elapsed_seconds": 12.4, ...}
 ```
@@ -84,7 +84,7 @@ SELECT * FROM bi.vw_kpi_resumen;
 ├── requirements.txt
 ├── pyproject.toml          # Configuración pytest, coverage y ruff
 ├── .env.example            # Variables necesarias
-├── data/raw/               # CSVs sintéticos (200 clientes, 381 créditos, 1801 pagos)
+├── data/raw/               # CSVs sintéticos (121 clientes, 262 créditos, 1202 pagos)
 ├── sql/                    # DDL y vistas (01–09, ejecutados en orden)
 │   ├── 01_schemas.sql      # Esquemas: raw, stg, dwh, bi, dq
 │   ├── 02_ddl_raw.sql      # Tablas ingesta cruda (todo TEXT)
@@ -179,7 +179,7 @@ La configuración de pytest, coverage y ruff está en `pyproject.toml`.
 
 - SCD-1 en todas las dimensiones (no hay historial de cambios)
 - Carga full-load: trunca y recarga en cada ejecución
-- `flag_doc_duplicado` en clientes detecta el duplicado real de C0001/C0195 pero no bloquea al cliente; la decisión de negocio sobre cuál es el válido está fuera del scope del pipeline
+- `flag_doc_duplicado` en clientes detecta el duplicado real de C0001/C0121 pero no bloquea al cliente; la decisión de negocio sobre cuál es el válido está fuera del scope del pipeline
 
 ---
 
