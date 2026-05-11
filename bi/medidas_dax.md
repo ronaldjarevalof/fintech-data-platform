@@ -1,4 +1,4 @@
-# Medidas DAX — TUMIPAY
+# Medidas DAX — FINTECH
 
 ## Medidas de Cartera
 

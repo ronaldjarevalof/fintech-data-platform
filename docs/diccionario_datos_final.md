@@ -1,4 +1,4 @@
-# Diccionario de Datos — TUMIPAY Data Platform
+# Diccionario de Datos — FINTECH Data Platform
 
 Proyecto: Prueba técnica Data Platform Engineer Lead — Revolutiva  
 Candidato: Ronald Arévalo

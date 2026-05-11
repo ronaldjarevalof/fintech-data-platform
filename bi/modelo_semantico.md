@@ -1,4 +1,4 @@
-# Modelo Semántico Power BI — TUMIPAY
+# Modelo Semántico Power BI — FINTECH
 
 ## Tablas y conexiones
 

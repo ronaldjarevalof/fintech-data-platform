@@ -1,8 +1,8 @@
-# TUMIPAY Data Platform
+# FINTECH Data Platform
 
-![CI](https://github.com/ronald-arevalo/tumipay-data-platform/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/ronald-arevalo/fintech-data-platform/actions/workflows/ci.yml/badge.svg)
 
-Solución de datos para TUMIPAY (fintech) — entregable de la prueba técnica para el rol **Data Platform Engineer Lead** en Revolutiva.
+Solución de datos para FINTECH (fintech) — entregable de la prueba técnica para el rol **Data Platform Engineer Lead** en Revolutiva.
 
 **Candidato:** Ronald Arévalo
 
@@ -128,7 +128,7 @@ SELECT * FROM bi.vw_kpi_resumen;
 ## pgAdmin
 
 Disponible en `http://localhost:8080`
-- Email: `admin@tumipay.local`
+- Email: `admin@fintech.local`
 - Password: `admin`
 - Servidor: host `postgres`, port `5432`, user/pass del `.env`
 
@@ -183,4 +183,4 @@ La configuración de pytest, coverage y ruff está en `pyproject.toml`.
 
 ## Documento de diseño
 
-`docs/Diseno_Solucion_TUMIPAY_Ronald_Arevalo.pdf` — 47 páginas con arquitectura completa, justificaciones y propuesta de evolución AWS.
+`docs/Diseno_Solucion_FINTECH_Ronald_Arevalo.pdf` — 47 páginas con arquitectura completa, justificaciones y propuesta de evolución AWS.

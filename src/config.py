@@ -9,7 +9,7 @@ load_dotenv()
 
 POSTGRES_HOST: str = os.getenv("POSTGRES_HOST", "localhost")
 POSTGRES_PORT: int = int(os.getenv("POSTGRES_PORT", "5432"))
-POSTGRES_DB: str = os.getenv("POSTGRES_DB", "tumipay")
+POSTGRES_DB: str = os.getenv("POSTGRES_DB", "fintech")
 POSTGRES_USER: str = os.getenv("POSTGRES_USER", "etl_user")
 POSTGRES_PASSWORD: str = os.getenv("POSTGRES_PASSWORD", "fintech")
 

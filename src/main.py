@@ -1,4 +1,4 @@
-"""Orquestador del pipeline ETL de TUMIPAY.
+"""Orquestador del pipeline ETL de FINTECH.
 
 Flujo: extract → load_raw → transform → validate → load_stg →
        load_dq_errors → load_dwh → refresh_views → actualizar etl_runs

@@ -1,6 +1,6 @@
 -- =============================================================================
 -- 09_consultas_analiticas.sql
--- 8 consultas analíticas sobre el modelo dimensional de TUMIPAY.
+-- 8 consultas analíticas sobre el modelo dimensional de FINTECH.
 -- Ejecutar después de que el ETL haya cargado datos.
 -- =============================================================================
 

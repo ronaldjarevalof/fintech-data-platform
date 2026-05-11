@@ -40,13 +40,13 @@ jobs:
       postgres:
         image: postgres:18
         env:
-          POSTGRES_DB: tumipay
+          POSTGRES_DB: fintech
           POSTGRES_USER: etl_user
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD || 'fintech' }}
         ports:
           - 5432:5432
         options: >-
-          --health-cmd "pg_isready -U etl_user -d tumipay"
+          --health-cmd "pg_isready -U etl_user -d fintech"
           --health-interval 5s
           --health-timeout 5s
           --health-retries 10
@@ -63,7 +63,7 @@ jobs:
         run: |
           for f in $(ls sql/*.sql | sort); do
             echo "▶ $f"
-            psql -h localhost -U etl_user -d tumipay -f "$f"
+            psql -h localhost -U etl_user -d fintech -f "$f"
           done
 
       - uses: actions/setup-python@v5
@@ -78,7 +78,7 @@ jobs:
         env:
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432
-          POSTGRES_DB: tumipay
+          POSTGRES_DB: fintech
           POSTGRES_USER: etl_user
           POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
           DATA_RAW_PATH: ${{ github.workspace }}/data/raw
@@ -91,28 +91,28 @@ jobs:
           PGPASSWORD: ${{ env.POSTGRES_PASSWORD }}
         run: |
           echo "=== ETL run ==="
-          psql -h localhost -U etl_user -d tumipay -c \
+          psql -h localhost -U etl_user -d fintech -c \
             "SELECT run_id, status, filas_dq_errors, filas_fact_credito, filas_fact_pago
              FROM dq.etl_runs ORDER BY started_at DESC LIMIT 1;"
 
           echo "=== Verificar status = SUCCESS ==="
-          STATUS=$(psql -h localhost -U etl_user -d tumipay -t -A -c \
+          STATUS=$(psql -h localhost -U etl_user -d fintech -t -A -c \
             "SELECT status FROM dq.etl_runs ORDER BY started_at DESC LIMIT 1;")
           [ "$STATUS" = "SUCCESS" ] || { echo "FAIL: status=$STATUS"; exit 1; }
 
           echo "=== DQ errors por regla ==="
-          psql -h localhost -U etl_user -d tumipay -c \
+          psql -h localhost -U etl_user -d fintech -c \
             "SELECT regla_id, tabla_origen, severidad, COUNT(*) AS n
              FROM dq.dq_errors GROUP BY 1,2,3 ORDER BY 1;"
 
           echo "=== Verificar dq_errors entre 10 y 15 ==="
-          DQ=$(psql -h localhost -U etl_user -d tumipay -t -A -c \
+          DQ=$(psql -h localhost -U etl_user -d fintech -t -A -c \
             "SELECT COUNT(*) FROM dq.dq_errors;")
           [ "$DQ" -ge 10 ] && [ "$DQ" -le 15 ] \
             || { echo "FAIL: dq_errors=$DQ, esperado 10-15"; exit 1; }
 
           echo "=== KPI resumen ==="
-          psql -h localhost -U etl_user -d tumipay -c \
+          psql -h localhost -U etl_user -d fintech -c \
             "SELECT * FROM bi.vw_kpi_resumen;"
 
           echo "✓ Pipeline verificado: status=SUCCESS, dq_errors=$DQ"

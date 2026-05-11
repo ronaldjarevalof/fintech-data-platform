@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:18
-    container_name: tumipay_postgres
+    container_name: fintech_postgres
     env_file: .env
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
@@ -14,11 +14,11 @@ services:
       timeout: 5s
       retries: 10
     networks:
-      - tumipay_net
+      - fintech_net
 
   etl:
     build: .
-    container_name: tumipay_etl
+    container_name: fintech_etl
     env_file: .env
     depends_on:
       postgres:
@@ -26,24 +26,24 @@ services:
     volumes:
       - ./data:/app/data
     networks:
-      - tumipay_net
+      - fintech_net
 
   pgadmin:
     image: dpage/pgadmin4:latest
-    container_name: tumipay_pgadmin
+    container_name: fintech_pgadmin
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@tumipay.local}
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@fintech.local}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin}
     ports:
       - "8080:80"
     depends_on:
       - postgres
     networks:
-      - tumipay_net
+      - fintech_net
 
 volumes:
   postgres_data:
 
 networks:
-  tumipay_net:
+  fintech_net:
     driver: bridge
