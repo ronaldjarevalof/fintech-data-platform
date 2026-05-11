@@ -138,9 +138,15 @@ Disponible en `http://localhost:8080`
 
 El repositorio tiene dos niveles de verificación automatizada:
 
-**CI en GitHub Actions** (se ejecuta en cada push):
-- `unit-tests` — corre `pytest --cov=src` sin base de datos
-- `pipeline-smoke` — levanta Postgres 18, aplica todos los scripts SQL, ejecuta el pipeline completo y verifica que `status = SUCCESS` y `dq_errors` tenga entre 10 y 15 registros
+**CI en GitHub Actions** (se ejecuta en cada push, tres jobs):
+
+| Job | Qué valida |
+|-----|-----------|
+| `unit-tests` | `pytest --cov=src` — lógica Python sin base de datos |
+| `docker-build` | `docker compose build etl` — Dockerfile y docker-compose.yml construyen correctamente |
+| `pipeline-smoke` | Postgres 18 real + DDL + `python -m src.main` + verifica `status=SUCCESS` y `dq_errors` 10-15 |
+
+`pipeline-smoke` solo corre si `unit-tests` y `docker-build` pasan, cerrando el gap entre "el código funciona" y "la imagen Docker construye".
 
 El workflow no contiene passwords en texto claro. Usa `${{ secrets.POSTGRES_PASSWORD || 'fintech' }}`: si el secret `POSTGRES_PASSWORD` está configurado en el repo (`Settings → Secrets → Actions`) lo utiliza; si no, cae al valor de ejemplo `fintech`.
 

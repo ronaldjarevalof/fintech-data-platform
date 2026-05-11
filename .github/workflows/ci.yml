@@ -25,11 +25,24 @@ jobs:
       - name: Run pytest with coverage
         run: pytest --cov=src --cov-report=term-missing tests/ -v
 
-  # ── Job 2: smoke test completo del pipeline (con Postgres) ─────────────────
+  # ── Job 2: valida que el Dockerfile y docker-compose.yml construyen ─────────
+  docker-build:
+    name: Docker build validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create .env from example
+        run: cp .env.example .env
+
+      - name: Validate Docker image builds
+        run: docker compose build etl
+
+  # ── Job 3: smoke test completo del pipeline (con Postgres) ─────────────────
   pipeline-smoke:
     name: Pipeline smoke test
     runs-on: ubuntu-latest
-    needs: unit-tests
+    needs: [unit-tests, docker-build]
 
     # Si el secret POSTGRES_PASSWORD está configurado en el repo se usa;
     # si no (fork sin secrets), cae al valor por defecto 'fintech'.
