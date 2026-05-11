@@ -22,7 +22,8 @@ htmlcov/
 
 # Datos crudos (no commitear CSVs reales)
 data/raw/*.csv
-data/output/
+data/output/*
+!data/output/.gitkeep
 
 # Logs
 *.log
