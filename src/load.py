@@ -75,14 +75,13 @@ def _truncate(conn: Any, full_table: str) -> None:
 # ---------------------------------------------------------------------------
 
 def load_raw(
-    dfs: dict[str, pd.DataFrame], engine: Engine, run_id: str
+    dfs: dict[str, pd.DataFrame], engine: Engine
 ) -> dict[str, int]:
     """Trunca las tablas raw y carga todos los datos crudos.
 
     Args:
         dfs: DataFrames crudos (salida de extract_all).
         engine: Engine SQLAlchemy.
-        run_id: UUID de la ejecución.
 
     Returns:
         Dict con conteo de filas insertadas por entidad.
@@ -190,7 +189,8 @@ def load_dq_errors(dq_errors_df: pd.DataFrame, engine: Engine) -> int:
     """
     if dq_errors_df.empty:
         return 0
-    return _to_sql(dq_errors_df, "dq_errors", "dq", engine)
+    with get_connection(engine) as conn:
+        return _to_sql(dq_errors_df, "dq_errors", "dq", conn)
 
 
 # ---------------------------------------------------------------------------
@@ -378,41 +378,42 @@ _METODO_NORM: dict[str, str] = {
 }
 
 
-def _load_dim_seed(engine: Engine) -> None:
+def _load_dim_seed(conn: Any, loaded_at: datetime) -> None:
     """Inserta los registros semilla en las dimensiones de baja cardinalidad."""
-    loaded_at = datetime.now(tz=timezone.utc)
-
     pd.DataFrame(
         [{"producto_id": pid, "nombre": n, "_loaded_at": loaded_at}
          for pid, n in _PRODUCTOS_SEED]
-    ).to_sql("dim_producto", engine, schema="dwh", if_exists="append",
+    ).to_sql("dim_producto", conn, schema="dwh", if_exists="append",
              index=False, method="multi")
 
     pd.DataFrame(
         [{"canal_id": cid, "nombre": n, "_loaded_at": loaded_at}
          for cid, n in _CANALES_SEED]
-    ).to_sql("dim_canal", engine, schema="dwh", if_exists="append",
+    ).to_sql("dim_canal", conn, schema="dwh", if_exists="append",
              index=False, method="multi")
 
     pd.DataFrame(
         [{"estado_id": eid, "nombre": n, "es_activo": a, "es_mora": m,
           "es_terminado": t, "_loaded_at": loaded_at}
          for eid, n, a, m, t in _ESTADOS_CREDITO_SEED]
-    ).to_sql("dim_estado_credito", engine, schema="dwh", if_exists="append",
+    ).to_sql("dim_estado_credito", conn, schema="dwh", if_exists="append",
              index=False, method="multi")
 
     pd.DataFrame(
         [{"metodo_id": mid, "nombre": n, "tipo": tp, "_loaded_at": loaded_at}
          for mid, n, tp in _METODOS_PAGO_SEED]
-    ).to_sql("dim_metodo_pago", engine, schema="dwh", if_exists="append",
+    ).to_sql("dim_metodo_pago", conn, schema="dwh", if_exists="append",
              index=False, method="multi")
 
 
-def _fetch_sk_map(engine: Engine, table: str, id_col: str, sk_col: str) -> dict[str, int]:
+def _fetch_sk_map(conn: Any, table: str, id_col: str, sk_col: str) -> dict[str, int]:
     """Carga un mapa {id_negocio → sk} desde una tabla de dimensión.
 
+    Debe ejecutarse dentro de la misma transacción que insertó los datos,
+    para que los registros recién cargados sean visibles.
+
     Args:
-        engine: Engine SQLAlchemy.
+        conn: Conexión SQLAlchemy activa (dentro de la transacción de carga).
         table: Nombre completo de la tabla (schema.tabla).
         id_col: Columna de clave de negocio.
         sk_col: Columna de clave subrogada.
@@ -420,11 +421,10 @@ def _fetch_sk_map(engine: Engine, table: str, id_col: str, sk_col: str) -> dict[
     Returns:
         Diccionario de lookup.
     """
-    with engine.connect() as conn:
-        from sqlalchemy import text
-        rows = conn.execute(
-            text(f"SELECT {id_col}, {sk_col} FROM {table}")
-        ).fetchall()
+    from sqlalchemy import text
+    rows = conn.execute(
+        text(f"SELECT {id_col}, {sk_col} FROM {table}")
+    ).fetchall()
     return {str(r[0]): int(r[1]) for r in rows}
 
 
@@ -451,8 +451,11 @@ def load_dwh(
     counts: dict[str, int] = {}
     loaded_at = datetime.now(tz=timezone.utc)
 
-    # 1. Truncar en orden correcto (facts → dims)
+    # Una sola transacción: truncate + todos los inserts son atómicos.
+    # Si cualquier INSERT falla, el rollback deja el DWH en su estado anterior.
     with get_connection(engine) as conn:
+
+        # 1. Truncar en orden correcto (facts → dims)
         for table in (
             "dwh.fact_pago",
             "dwh.fact_credito",
@@ -465,127 +468,127 @@ def load_dwh(
         ):
             _truncate(conn, table)
 
-    # 2. dim_tiempo
-    dt_df = _generate_dim_tiempo()
-    counts["dim_tiempo"] = _to_sql(dt_df, "dim_tiempo", "dwh", engine)
+        # 2. dim_tiempo
+        dt_df = _generate_dim_tiempo()
+        counts["dim_tiempo"] = _to_sql(dt_df, "dim_tiempo", "dwh", conn)
 
-    # 3. Dimensiones semilla
-    _load_dim_seed(engine)
+        # 3. Dimensiones semilla (dentro de la misma transacción)
+        _load_dim_seed(conn, loaded_at)
 
-    # 4. dim_cliente
-    cl = _drop_internal(dfs["clientes"]).copy()
-    cl["_loaded_at"] = loaded_at
-    dim_cl_cols = [
-        "cliente_id", "tipo_documento", "numero_documento", "nombres",
-        "apellidos", "email", "telefono", "fecha_registro", "estado_cliente",
-        "ciudad", "segmento", "fecha_nacimiento", "ingresos_mensuales",
-        "flag_email_duplicado", "flag_doc_duplicado", "_loaded_at",
-    ]
-    if "flag_email_duplicado" not in cl.columns:
-        cl["flag_email_duplicado"] = False
-    if "flag_doc_duplicado" not in cl.columns:
-        cl["flag_doc_duplicado"] = False
-    counts["dim_cliente"] = _to_sql(
-        cl[[c for c in dim_cl_cols if c in cl.columns]],
-        "dim_cliente", "dwh", engine,
-    )
-
-    # 5. Lookups de SK
-    cliente_sk_map = _fetch_sk_map(engine, "dwh.dim_cliente", "cliente_id", "cliente_sk")
-    producto_sk_map = _fetch_sk_map(engine, "dwh.dim_producto", "producto_id", "producto_sk")
-    canal_sk_map = _fetch_sk_map(engine, "dwh.dim_canal", "canal_id", "canal_sk")
-    estado_cr_sk_map = _fetch_sk_map(
-        engine, "dwh.dim_estado_credito", "estado_id", "estado_credito_sk"
-    )
-    metodo_sk_map = _fetch_sk_map(
-        engine, "dwh.dim_metodo_pago", "metodo_id", "metodo_pago_sk"
-    )
-
-    # 6. fact_credito
-    cr = _drop_internal(dfs["creditos"]).copy()
-    cr["cliente_sk"] = cr["cliente_id"].map(cliente_sk_map)
-    cr["producto_sk"] = cr["producto"].str.lower().map(
-        lambda v: producto_sk_map.get(_PRODUCTO_NORM.get(v, ""), None)
-    )
-    cr["canal_sk"] = cr["canal"].str.lower().map(
-        lambda v: canal_sk_map.get(_CANAL_NORM.get(v, ""), None)
-    )
-    cr["estado_credito_sk"] = cr["estado_credito"].str.lower().map(
-        lambda v: estado_cr_sk_map.get(_ESTADO_CR_NORM.get(v, ""), None)
-    )
-    cr["tiempo_solicitud_sk"] = cr["fecha_solicitud"].apply(
-        lambda d: int(d.strftime("%Y%m%d")) if isinstance(d, date) else None
-    )
-    cr["tiempo_desembolso_sk"] = cr["fecha_desembolso"].apply(
-        lambda d: int(d.strftime("%Y%m%d")) if isinstance(d, date) else None
-    )
-    cr["tiempo_vencimiento_sk"] = cr["fecha_vencimiento"].apply(
-        lambda d: int(d.strftime("%Y%m%d")) if isinstance(d, date) else None
-    )
-    cr["dias_mora"] = cr.apply(
-        lambda row: compute_dias_mora(
-            row["estado_credito"], row["fecha_vencimiento"], fecha_corte
-        ),
-        axis=1,
-    )
-    cr["_loaded_at"] = loaded_at
-
-    fact_cr_cols = [
-        "credito_id", "cliente_sk", "producto_sk", "canal_sk",
-        "estado_credito_sk", "tiempo_solicitud_sk", "tiempo_desembolso_sk",
-        "tiempo_vencimiento_sk", "monto_aprobado", "plazo_meses",
-        "tasa_interes_mensual", "dias_mora", "_loaded_at",
-    ]
-    sk_cols_cr = ["cliente_sk", "producto_sk", "canal_sk", "estado_credito_sk"]
-    null_sk_cr = cr[sk_cols_cr].isna().any(axis=1)
-    if null_sk_cr.any():
-        _log.warning(
-            "fact_credito_sk_nulo",
-            filas_descartadas=int(null_sk_cr.sum()),
-            credito_ids=cr.loc[null_sk_cr, "credito_id"].tolist(),
+        # 4. dim_cliente
+        cl = _drop_internal(dfs["clientes"]).copy()
+        cl["_loaded_at"] = loaded_at
+        dim_cl_cols = [
+            "cliente_id", "tipo_documento", "numero_documento", "nombres",
+            "apellidos", "email", "telefono", "fecha_registro", "estado_cliente",
+            "ciudad", "segmento", "fecha_nacimiento", "ingresos_mensuales",
+            "flag_email_duplicado", "flag_doc_duplicado", "_loaded_at",
+        ]
+        if "flag_email_duplicado" not in cl.columns:
+            cl["flag_email_duplicado"] = False
+        if "flag_doc_duplicado" not in cl.columns:
+            cl["flag_doc_duplicado"] = False
+        counts["dim_cliente"] = _to_sql(
+            cl[[c for c in dim_cl_cols if c in cl.columns]],
+            "dim_cliente", "dwh", conn,
         )
-    cr_fact = cr[~null_sk_cr]
-    counts["fact_credito"] = _to_sql(
-        cr_fact[[c for c in fact_cr_cols if c in cr_fact.columns]],
-        "fact_credito", "dwh", engine,
-    )
 
-    # Mapa credito_id → cliente_sk (para fact_pago)
-    credito_cliente_map: dict[str, int] = dict(
-        zip(cr["credito_id"], cr["cliente_sk"])
-    )
-
-    # 7. fact_pago
-    pg = _drop_internal(dfs["pagos"]).copy()
-    pg["cliente_sk"] = pg["credito_id"].map(credito_cliente_map)
-    pg["metodo_pago_sk"] = pg["metodo_pago"].str.lower().map(
-        lambda v: metodo_sk_map.get(_METODO_NORM.get(v, ""), None)
-    )
-    pg["tiempo_pago_sk"] = pg["fecha_pago"].apply(
-        lambda d: int(d.strftime("%Y%m%d")) if isinstance(d, date) else None
-    )
-    pg["_loaded_at"] = loaded_at
-    if "flag_referencia_duplicada" not in pg.columns:
-        pg["flag_referencia_duplicada"] = False
-
-    fact_pg_cols = [
-        "pago_id", "credito_id", "cliente_sk", "metodo_pago_sk",
-        "tiempo_pago_sk", "monto_pago", "estado_pago",
-        "referencia_transaccion", "flag_referencia_duplicada", "_loaded_at",
-    ]
-    sk_cols_pg = ["cliente_sk", "metodo_pago_sk", "tiempo_pago_sk"]
-    null_sk_pg = pg[sk_cols_pg].isna().any(axis=1)
-    if null_sk_pg.any():
-        _log.warning(
-            "fact_pago_sk_nulo",
-            filas_descartadas=int(null_sk_pg.sum()),
-            pago_ids=pg.loc[null_sk_pg, "pago_id"].tolist(),
+        # 5. Lookups de SK — visibles porque están en la misma transacción
+        cliente_sk_map = _fetch_sk_map(conn, "dwh.dim_cliente", "cliente_id", "cliente_sk")
+        producto_sk_map = _fetch_sk_map(conn, "dwh.dim_producto", "producto_id", "producto_sk")
+        canal_sk_map = _fetch_sk_map(conn, "dwh.dim_canal", "canal_id", "canal_sk")
+        estado_cr_sk_map = _fetch_sk_map(
+            conn, "dwh.dim_estado_credito", "estado_id", "estado_credito_sk"
         )
-    pg_fact = pg[~null_sk_pg]
-    counts["fact_pago"] = _to_sql(
-        pg_fact[[c for c in fact_pg_cols if c in pg_fact.columns]],
-        "fact_pago", "dwh", engine,
-    )
+        metodo_sk_map = _fetch_sk_map(
+            conn, "dwh.dim_metodo_pago", "metodo_id", "metodo_pago_sk"
+        )
+
+        # 6. fact_credito
+        cr = _drop_internal(dfs["creditos"]).copy()
+        cr["cliente_sk"] = cr["cliente_id"].map(cliente_sk_map)
+        cr["producto_sk"] = cr["producto"].str.lower().map(
+            lambda v: producto_sk_map.get(_PRODUCTO_NORM.get(v, ""), None)
+        )
+        cr["canal_sk"] = cr["canal"].str.lower().map(
+            lambda v: canal_sk_map.get(_CANAL_NORM.get(v, ""), None)
+        )
+        cr["estado_credito_sk"] = cr["estado_credito"].str.lower().map(
+            lambda v: estado_cr_sk_map.get(_ESTADO_CR_NORM.get(v, ""), None)
+        )
+        cr["tiempo_solicitud_sk"] = cr["fecha_solicitud"].apply(
+            lambda d: int(d.strftime("%Y%m%d")) if isinstance(d, date) else None
+        )
+        cr["tiempo_desembolso_sk"] = cr["fecha_desembolso"].apply(
+            lambda d: int(d.strftime("%Y%m%d")) if isinstance(d, date) else None
+        )
+        cr["tiempo_vencimiento_sk"] = cr["fecha_vencimiento"].apply(
+            lambda d: int(d.strftime("%Y%m%d")) if isinstance(d, date) else None
+        )
+        cr["dias_mora"] = cr.apply(
+            lambda row: compute_dias_mora(
+                row["estado_credito"], row["fecha_vencimiento"], fecha_corte
+            ),
+            axis=1,
+        )
+        cr["_loaded_at"] = loaded_at
+
+        fact_cr_cols = [
+            "credito_id", "cliente_sk", "producto_sk", "canal_sk",
+            "estado_credito_sk", "tiempo_solicitud_sk", "tiempo_desembolso_sk",
+            "tiempo_vencimiento_sk", "monto_aprobado", "plazo_meses",
+            "tasa_interes_mensual", "dias_mora", "_loaded_at",
+        ]
+        sk_cols_cr = ["cliente_sk", "producto_sk", "canal_sk", "estado_credito_sk"]
+        null_sk_cr = cr[sk_cols_cr].isna().any(axis=1)
+        if null_sk_cr.any():
+            _log.warning(
+                "fact_credito_sk_nulo",
+                filas_descartadas=int(null_sk_cr.sum()),
+                credito_ids=cr.loc[null_sk_cr, "credito_id"].tolist(),
+            )
+        cr_fact = cr[~null_sk_cr]
+        counts["fact_credito"] = _to_sql(
+            cr_fact[[c for c in fact_cr_cols if c in cr_fact.columns]],
+            "fact_credito", "dwh", conn,
+        )
+
+        # Mapa credito_id → cliente_sk (para fact_pago)
+        credito_cliente_map: dict[str, int] = dict(
+            zip(cr["credito_id"], cr["cliente_sk"])
+        )
+
+        # 7. fact_pago
+        pg = _drop_internal(dfs["pagos"]).copy()
+        pg["cliente_sk"] = pg["credito_id"].map(credito_cliente_map)
+        pg["metodo_pago_sk"] = pg["metodo_pago"].str.lower().map(
+            lambda v: metodo_sk_map.get(_METODO_NORM.get(v, ""), None)
+        )
+        pg["tiempo_pago_sk"] = pg["fecha_pago"].apply(
+            lambda d: int(d.strftime("%Y%m%d")) if isinstance(d, date) else None
+        )
+        pg["_loaded_at"] = loaded_at
+        if "flag_referencia_duplicada" not in pg.columns:
+            pg["flag_referencia_duplicada"] = False
+
+        fact_pg_cols = [
+            "pago_id", "credito_id", "cliente_sk", "metodo_pago_sk",
+            "tiempo_pago_sk", "monto_pago", "estado_pago",
+            "referencia_transaccion", "flag_referencia_duplicada", "_loaded_at",
+        ]
+        sk_cols_pg = ["cliente_sk", "metodo_pago_sk", "tiempo_pago_sk"]
+        null_sk_pg = pg[sk_cols_pg].isna().any(axis=1)
+        if null_sk_pg.any():
+            _log.warning(
+                "fact_pago_sk_nulo",
+                filas_descartadas=int(null_sk_pg.sum()),
+                pago_ids=pg.loc[null_sk_pg, "pago_id"].tolist(),
+            )
+        pg_fact = pg[~null_sk_pg]
+        counts["fact_pago"] = _to_sql(
+            pg_fact[[c for c in fact_pg_cols if c in pg_fact.columns]],
+            "fact_pago", "dwh", conn,
+        )
 
     return counts
 

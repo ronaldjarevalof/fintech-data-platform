@@ -106,7 +106,7 @@ def main() -> None:
 
         # 2. Load raw
         logger.info("step_load_raw_start")
-        raw_counts = load_raw(raw_dfs, engine, run_id)
+        raw_counts = load_raw(raw_dfs, engine)
         counts.update({f"raw_{k}": v for k, v in raw_counts.items()})
         logger.info("step_load_raw_done", **raw_counts)
 
