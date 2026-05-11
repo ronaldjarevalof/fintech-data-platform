@@ -99,3 +99,34 @@ GRANT ALL ON ALL SEQUENCES IN SCHEMA dq  TO dba_admin;
 GRANT USAGE ON SCHEMA dq TO audit_reader;
 GRANT SELECT ON dq.dq_errors TO audit_reader;
 GRANT SELECT ON dq.etl_runs  TO audit_reader;
+
+-- -----------------------------------------------------------------------------
+-- Privilegios por defecto (ALTER DEFAULT PRIVILEGES)
+-- Garantiza que nuevas tablas creadas en el futuro hereden los permisos
+-- correctos sin necesidad de re-ejecutar los GRANT manuales.
+-- Aplica a objetos creados por el rol que ejecuta este script (superuser).
+-- -----------------------------------------------------------------------------
+ALTER DEFAULT PRIVILEGES IN SCHEMA raw
+    GRANT SELECT, INSERT, UPDATE, DELETE, TRUNCATE ON TABLES TO etl_loader;
+ALTER DEFAULT PRIVILEGES IN SCHEMA stg
+    GRANT SELECT, INSERT, UPDATE, DELETE, TRUNCATE ON TABLES TO etl_loader;
+ALTER DEFAULT PRIVILEGES IN SCHEMA dwh
+    GRANT SELECT, INSERT, UPDATE, DELETE, TRUNCATE ON TABLES TO etl_loader;
+ALTER DEFAULT PRIVILEGES IN SCHEMA dq
+    GRANT INSERT ON TABLES TO etl_loader;
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA raw
+    GRANT USAGE, SELECT ON SEQUENCES TO etl_loader;
+ALTER DEFAULT PRIVILEGES IN SCHEMA stg
+    GRANT USAGE, SELECT ON SEQUENCES TO etl_loader;
+ALTER DEFAULT PRIVILEGES IN SCHEMA dwh
+    GRANT USAGE, SELECT ON SEQUENCES TO etl_loader;
+ALTER DEFAULT PRIVILEGES IN SCHEMA dq
+    GRANT USAGE, SELECT ON SEQUENCES TO etl_loader;
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA bi
+    GRANT SELECT ON TABLES TO bi_reader;
+ALTER DEFAULT PRIVILEGES IN SCHEMA dwh
+    GRANT SELECT ON TABLES TO analyst_readonly;
+ALTER DEFAULT PRIVILEGES IN SCHEMA bi
+    GRANT SELECT ON TABLES TO analyst_readonly;

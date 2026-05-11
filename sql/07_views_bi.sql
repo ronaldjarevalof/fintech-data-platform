@@ -113,6 +113,7 @@ ORDER BY dt_des.anio, dt_des.mes, dp.nombre;
 -- -----------------------------------------------------------------------------
 CREATE MATERIALIZED VIEW IF NOT EXISTS bi.vw_kpi_resumen AS
 SELECT
+    1::INT                                                          AS id,
     (SELECT COUNT(*)
      FROM dwh.fact_credito fc
      JOIN dwh.dim_estado_credito dec ON fc.estado_credito_sk = dec.estado_credito_sk
@@ -150,6 +151,14 @@ SELECT
          COUNT(CASE WHEN fp.estado_pago = 'Fallido' THEN 1 END) * 100.0
          / NULLIF(COUNT(*), 0), 2)
      FROM dwh.fact_pago fp)                                        AS tasa_fallo_pago_pct;
+
+-- Índices únicos para permitir REFRESH MATERIALIZED VIEW CONCURRENTLY
+-- (sin bloqueo exclusivo de lectura durante el refresco del ETL).
+CREATE UNIQUE INDEX IF NOT EXISTS idx_mv_cosecha_anio_mes_prod
+    ON bi.vw_cosecha_morosidad (anio_cosecha, mes_cosecha, producto);
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_mv_kpi_resumen_id
+    ON bi.vw_kpi_resumen (id);
 
 -- -----------------------------------------------------------------------------
 -- 7. bi.vw_cliente_safe — Enmascaramiento PII para capa BI

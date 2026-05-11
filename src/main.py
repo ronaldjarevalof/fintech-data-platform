@@ -150,10 +150,13 @@ def main() -> None:
         counts.update(dwh_counts)
         logger.info("step_load_dwh_done", **dwh_counts)
 
-        # 9. Refresh vistas materializadas
-        logger.info("step_refresh_views_start")
-        refresh_materialized_views(engine)
-        logger.info("step_refresh_views_done")
+        # 9. Refresh vistas materializadas (best-effort: no falla el pipeline)
+        try:
+            logger.info("step_refresh_views_start")
+            refresh_materialized_views(engine)
+            logger.info("step_refresh_views_done")
+        except Exception as refresh_exc:
+            logger.warning("step_refresh_views_failed", error=str(refresh_exc))
 
         # 10. Marcar ejecución como exitosa
         finished_at = datetime.now(tz=timezone.utc)

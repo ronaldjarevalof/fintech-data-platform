@@ -13,11 +13,14 @@ from datetime import date, datetime, timezone
 from typing import Any
 
 import pandas as pd
+import structlog
 from sqlalchemy.engine import Engine
 
 from src.config import DIM_TIEMPO_DESDE, DIM_TIEMPO_HASTA
 from src.db import get_connection
 from src.transform import compute_dias_mora
+
+_log = structlog.get_logger(__name__)
 
 
 # ---------------------------------------------------------------------------
@@ -35,14 +38,15 @@ def _drop_internal(df: pd.DataFrame) -> pd.DataFrame:
     return df.drop(columns=[c for c in _INTERNAL_COLS if c in df.columns])
 
 
-def _to_sql(df: pd.DataFrame, table: str, schema: str, engine: Engine) -> int:
+def _to_sql(df: pd.DataFrame, table: str, schema: str, con: Any) -> int:
     """Inserta un DataFrame en la tabla indicada usando to_sql multi.
 
     Args:
         df: DataFrame a insertar.
         table: Nombre de la tabla destino.
         schema: Esquema PostgreSQL.
-        engine: Engine SQLAlchemy.
+        con: Engine o Connection SQLAlchemy. Pasar una Connection permite
+             que TRUNCATE e INSERT compartan la misma transacción.
 
     Returns:
         Número de filas insertadas.
@@ -51,7 +55,7 @@ def _to_sql(df: pd.DataFrame, table: str, schema: str, engine: Engine) -> int:
         return 0
     df.to_sql(
         table,
-        engine,
+        con,
         schema=schema,
         if_exists="append",
         index=False,
@@ -84,6 +88,7 @@ def load_raw(
         Dict con conteo de filas insertadas por entidad.
     """
     counts: dict[str, int] = {}
+    # TRUNCATE + INSERT en la misma transacción para evitar ventana de tablas vacías
     with get_connection(engine) as conn:
         for entity, table in (
             ("clientes", "raw.raw_clientes"),
@@ -92,16 +97,15 @@ def load_raw(
         ):
             _truncate(conn, table)
 
-    for entity, (table_name, schema) in {
-        "clientes": ("raw_clientes", "raw"),
-        "creditos": ("raw_creditos", "raw"),
-        "pagos": ("raw_pagos", "raw"),
-    }.items():
-        df = dfs[entity].copy()
-        df = _drop_internal(df)
-        # Elimina columnas flag_* que no existen en raw
-        df = df.drop(columns=[c for c in df.columns if c.startswith("flag_")], errors="ignore")
-        counts[entity] = _to_sql(df, table_name, schema, engine)
+        for entity, (table_name, schema) in {
+            "clientes": ("raw_clientes", "raw"),
+            "creditos": ("raw_creditos", "raw"),
+            "pagos": ("raw_pagos", "raw"),
+        }.items():
+            df = dfs[entity].copy()
+            df = _drop_internal(df)
+            df = df.drop(columns=[c for c in df.columns if c.startswith("flag_")], errors="ignore")
+            counts[entity] = _to_sql(df, table_name, schema, conn)
 
     return counts
 
@@ -141,30 +145,31 @@ def load_staging(
         Dict con conteo de filas insertadas por entidad.
     """
     counts: dict[str, int] = {}
+    # TRUNCATE + INSERT en la misma transacción
     with get_connection(engine) as conn:
         for table in ("stg.stg_clientes", "stg.stg_creditos", "stg.stg_pagos"):
             _truncate(conn, table)
 
-    # Clientes
-    cl = _drop_internal(dfs["clientes"]).copy()
-    if "flag_email_duplicado" not in cl.columns:
-        cl["flag_email_duplicado"] = False
-    if "flag_doc_duplicado" not in cl.columns:
-        cl["flag_doc_duplicado"] = False
-    cl_out = cl[[c for c in _STG_COLS_CLIENTES if c in cl.columns]]
-    counts["clientes"] = _to_sql(cl_out, "stg_clientes", "stg", engine)
+        # Clientes
+        cl = _drop_internal(dfs["clientes"]).copy()
+        if "flag_email_duplicado" not in cl.columns:
+            cl["flag_email_duplicado"] = False
+        if "flag_doc_duplicado" not in cl.columns:
+            cl["flag_doc_duplicado"] = False
+        cl_out = cl[[c for c in _STG_COLS_CLIENTES if c in cl.columns]]
+        counts["clientes"] = _to_sql(cl_out, "stg_clientes", "stg", conn)
 
-    # Créditos
-    cr = _drop_internal(dfs["creditos"]).copy()
-    cr_out = cr[[c for c in _STG_COLS_CREDITOS if c in cr.columns]]
-    counts["creditos"] = _to_sql(cr_out, "stg_creditos", "stg", engine)
+        # Créditos
+        cr = _drop_internal(dfs["creditos"]).copy()
+        cr_out = cr[[c for c in _STG_COLS_CREDITOS if c in cr.columns]]
+        counts["creditos"] = _to_sql(cr_out, "stg_creditos", "stg", conn)
 
-    # Pagos
-    pg = _drop_internal(dfs["pagos"]).copy()
-    if "flag_referencia_duplicada" not in pg.columns:
-        pg["flag_referencia_duplicada"] = False
-    pg_out = pg[[c for c in _STG_COLS_PAGOS if c in pg.columns]]
-    counts["pagos"] = _to_sql(pg_out, "stg_pagos", "stg", engine)
+        # Pagos
+        pg = _drop_internal(dfs["pagos"]).copy()
+        if "flag_referencia_duplicada" not in pg.columns:
+            pg["flag_referencia_duplicada"] = False
+        pg_out = pg[[c for c in _STG_COLS_PAGOS if c in pg.columns]]
+        counts["pagos"] = _to_sql(pg_out, "stg_pagos", "stg", conn)
 
     return counts
 
@@ -531,8 +536,15 @@ def load_dwh(
         "tiempo_vencimiento_sk", "monto_aprobado", "plazo_meses",
         "tasa_interes_mensual", "dias_mora", "_loaded_at",
     ]
-    # Descartar filas con SK nulo (no debería ocurrir post-DQ, pero defensivo)
-    cr_fact = cr.dropna(subset=["cliente_sk", "producto_sk", "canal_sk", "estado_credito_sk"])
+    sk_cols_cr = ["cliente_sk", "producto_sk", "canal_sk", "estado_credito_sk"]
+    null_sk_cr = cr[sk_cols_cr].isna().any(axis=1)
+    if null_sk_cr.any():
+        _log.warning(
+            "fact_credito_sk_nulo",
+            filas_descartadas=int(null_sk_cr.sum()),
+            credito_ids=cr.loc[null_sk_cr, "credito_id"].tolist(),
+        )
+    cr_fact = cr[~null_sk_cr]
     counts["fact_credito"] = _to_sql(
         cr_fact[[c for c in fact_cr_cols if c in cr_fact.columns]],
         "fact_credito", "dwh", engine,
@@ -561,7 +573,15 @@ def load_dwh(
         "tiempo_pago_sk", "monto_pago", "estado_pago",
         "referencia_transaccion", "flag_referencia_duplicada", "_loaded_at",
     ]
-    pg_fact = pg.dropna(subset=["cliente_sk", "metodo_pago_sk", "tiempo_pago_sk"])
+    sk_cols_pg = ["cliente_sk", "metodo_pago_sk", "tiempo_pago_sk"]
+    null_sk_pg = pg[sk_cols_pg].isna().any(axis=1)
+    if null_sk_pg.any():
+        _log.warning(
+            "fact_pago_sk_nulo",
+            filas_descartadas=int(null_sk_pg.sum()),
+            pago_ids=pg.loc[null_sk_pg, "pago_id"].tolist(),
+        )
+    pg_fact = pg[~null_sk_pg]
     counts["fact_pago"] = _to_sql(
         pg_fact[[c for c in fact_pg_cols if c in pg_fact.columns]],
         "fact_pago", "dwh", engine,
@@ -577,10 +597,16 @@ def load_dwh(
 def refresh_materialized_views(engine: Engine) -> None:
     """Refresca las vistas materializadas del esquema bi.
 
+    Usa CONCURRENTLY para evitar bloqueo exclusivo de lectura durante el refresco.
+    Requiere que las vistas tengan índices únicos (definidos en 07_views_bi.sql).
+
     Args:
         engine: Engine SQLAlchemy.
     """
-    with get_connection(engine) as conn:
-        from sqlalchemy import text
-        conn.execute(text("REFRESH MATERIALIZED VIEW bi.vw_cosecha_morosidad"))
-        conn.execute(text("REFRESH MATERIALIZED VIEW bi.vw_kpi_resumen"))
+    from sqlalchemy import text
+
+    # CONCURRENTLY no puede ejecutarse dentro de una transacción explícita;
+    # se usa autocommit vía engine.connect() en lugar de engine.begin().
+    with engine.connect().execution_options(isolation_level="AUTOCOMMIT") as conn:
+        conn.execute(text("REFRESH MATERIALIZED VIEW CONCURRENTLY bi.vw_cosecha_morosidad"))
+        conn.execute(text("REFRESH MATERIALIZED VIEW CONCURRENTLY bi.vw_kpi_resumen"))

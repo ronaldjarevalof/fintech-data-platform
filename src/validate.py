@@ -166,7 +166,7 @@ def dq3_catalog_normalization(
 
     # Clientes: estado_cliente inválido
     cl = dfs["clientes"]
-    inv_cl = cl.get("_estado_cliente_valido", pd.Series(True, index=cl.index)) == False  # noqa: E712
+    inv_cl = ~cl.get("_estado_cliente_valido", pd.Series(True, index=cl.index)).astype(bool)
     for _, row in cl[inv_cl].iterrows():
         errors.append(
             _build_error(
@@ -177,7 +177,7 @@ def dq3_catalog_normalization(
 
     # Créditos: estado_credito inválido
     cr = dfs["creditos"]
-    inv_cr = cr.get("_estado_credito_valido", pd.Series(True, index=cr.index)) == False  # noqa: E712
+    inv_cr = ~cr.get("_estado_credito_valido", pd.Series(True, index=cr.index)).astype(bool)
     for _, row in cr[inv_cr].iterrows():
         errors.append(
             _build_error(
@@ -188,7 +188,7 @@ def dq3_catalog_normalization(
 
     # Pagos: estado_pago inválido
     pg = dfs["pagos"]
-    inv_pg = pg.get("_estado_pago_valido", pd.Series(True, index=pg.index)) == False  # noqa: E712
+    inv_pg = ~pg.get("_estado_pago_valido", pd.Series(True, index=pg.index)).astype(bool)
     for _, row in pg[inv_pg].iterrows():
         errors.append(
             _build_error(

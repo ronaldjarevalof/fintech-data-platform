@@ -95,7 +95,24 @@ def _safe_numeric(value: str) -> float | None:
         return None
     try:
         return float(value.strip())
-    except ValueError:
+    except (ValueError, TypeError):
+        return None
+
+
+def _safe_int(value: str) -> int | None:
+    """Convierte un string a int vía float; retorna None si está vacío o es inválido.
+
+    Args:
+        value: String entero a convertir (acepta '12.0' además de '12').
+
+    Returns:
+        int o None.
+    """
+    if not value or not value.strip():
+        return None
+    try:
+        return int(float(value.strip()))
+    except (ValueError, TypeError):
         return None
 
 
@@ -177,9 +194,7 @@ def transform_creditos(df: pd.DataFrame) -> pd.DataFrame:
     out["fecha_vencimiento"] = out["fecha_vencimiento"].apply(_parse_date)
 
     out["monto_aprobado"] = out["monto_aprobado"].apply(_safe_numeric)
-    out["plazo_meses"] = out["plazo_meses"].apply(
-        lambda v: int(float(v)) if v and v.strip() else None
-    )
+    out["plazo_meses"] = out["plazo_meses"].apply(_safe_int)
     out["tasa_interes_mensual"] = out["tasa_interes_mensual"].apply(_safe_numeric)
 
     return out
