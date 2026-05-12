@@ -193,6 +193,13 @@ La configuración de pytest, coverage y ruff está en `pyproject.toml`.
 
 ## Diagramas de diseño
 
-`docs/arquitectura_mvp.drawio` — Diagrama de Arquitectura MVP - Entrega Local.
+`docs/arquitectura_mvp.png` — Diagrama de Arquitectura MVP - Entrega Local.
+![Arquitectura MVP](docs/arquitectura_mvp.png)
 
-`docs/arquitectura_aws.drawio` — Diagrama de Arquitectura AWS - Evolución del proyecto.
+
+`docs/arquitectura_aws.png` — Diagrama de Arquitectura AWS - Evolución del proyecto.
+![Arquitectura AWS](docs/arquitectura_aws.png)
+
+
+`docs/modelo_dimensional.png` — Diseño Dimensional.
+![Modelo Dimensional](docs/modelo_dimensional.png)
