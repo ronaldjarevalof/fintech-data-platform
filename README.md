@@ -2,9 +2,7 @@
 
 ![CI](https://github.com/ronald-arevalo/fintech-data-platform/actions/workflows/ci.yml/badge.svg)
 
-Solución de datos para FINTECH — entregable de la prueba técnica para el rol **Data Platform Engineer Lead** en Revolutiva.
-
-**Candidato:** Ronald Arévalo
+Solución de datos para FINTECH
 
 ---
 
