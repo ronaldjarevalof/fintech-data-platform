@@ -3,6 +3,8 @@ services:
     image: postgres:18
     container_name: fintech_postgres
     env_file: .env
+    environment:
+      PGDATA: /var/lib/postgresql/data
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:
@@ -32,7 +34,7 @@ services:
     image: dpage/pgadmin4:latest
     container_name: fintech_pgadmin
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@fintech.local}
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@fintech.com}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin}
     ports:
       - "8080:80"

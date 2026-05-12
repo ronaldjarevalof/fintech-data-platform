@@ -167,6 +167,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS idx_mv_kpi_resumen_id
 -- -----------------------------------------------------------------------------
 CREATE OR REPLACE VIEW bi.vw_cliente_safe AS
 SELECT
+    cliente_sk,
     cliente_id,
     tipo_documento,
     -- numero_documento: muestra solo los últimos 4 dígitos
@@ -210,3 +211,14 @@ SELECT
     flag_email_duplicado,
     flag_doc_duplicado
 FROM dwh.dim_cliente;
+
+-- -----------------------------------------------------------------------------
+-- 8. Vistas regulares wrapper sobre las materializadas
+-- Power BI no enumera vistas materializadas vía information_schema.tables;
+-- estas vistas normales las exponen con el mismo contenido.
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE VIEW bi.vw_kpi_resumen_pbi AS
+    SELECT * FROM bi.vw_kpi_resumen;
+
+CREATE OR REPLACE VIEW bi.vw_cosecha_morosidad_pbi AS
+    SELECT * FROM bi.vw_cosecha_morosidad;
