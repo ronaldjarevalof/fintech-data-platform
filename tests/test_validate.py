@@ -69,9 +69,9 @@ def _pagos(**overrides) -> dict:
 
 def _dfs(clientes=None, creditos=None, pagos=None):
     return {
-        "clientes": pd.DataFrame(clientes or [_clientes()]),
-        "creditos": pd.DataFrame(creditos or [_creditos()]),
-        "pagos": pd.DataFrame(pagos or [_pagos()]),
+        "clientes": pd.DataFrame([_clientes()] if clientes is None else clientes),
+        "creditos": pd.DataFrame([_creditos()] if creditos is None else creditos),
+        "pagos": pd.DataFrame([_pagos()] if pagos is None else pagos),
     }
 
 
