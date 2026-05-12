@@ -230,19 +230,19 @@ def dq4_domain_values(
     # Créditos
     cr = dfs["creditos"].copy()
     bad_cr = (
-        cr["monto_aprobado"].apply(lambda v: v is None or (isinstance(v, float) and v <= 0))
-        | cr["plazo_meses"].apply(lambda v: v is None or (isinstance(v, (int, float)) and v <= 0))
+        cr["monto_aprobado"].apply(lambda v: pd.isna(v) or v <= 0)
+        | cr["plazo_meses"].apply(lambda v: pd.isna(v) or v <= 0)
         | cr["tasa_interes_mensual"].apply(
-            lambda v: isinstance(v, float) and not (0 <= v <= 10)
+            lambda v: not pd.isna(v) and not (0 <= v <= 10)
         )
     )
     for _, row in cr[bad_cr].iterrows():
         motivo_parts = []
-        if row["monto_aprobado"] is None or (isinstance(row["monto_aprobado"], float) and row["monto_aprobado"] <= 0):
+        if pd.isna(row["monto_aprobado"]) or row["monto_aprobado"] <= 0:
             motivo_parts.append(f"monto_aprobado={row['monto_aprobado']}")
-        if row["plazo_meses"] is None or (isinstance(row["plazo_meses"], (int, float)) and row["plazo_meses"] <= 0):
+        if pd.isna(row["plazo_meses"]) or row["plazo_meses"] <= 0:
             motivo_parts.append(f"plazo_meses={row['plazo_meses']}")
-        if isinstance(row["tasa_interes_mensual"], float) and not (0 <= row["tasa_interes_mensual"] <= 10):
+        if not pd.isna(row["tasa_interes_mensual"]) and not (0 <= row["tasa_interes_mensual"] <= 10):
             motivo_parts.append(f"tasa={row['tasa_interes_mensual']}")
         errors.append(
             _build_error(
@@ -255,7 +255,7 @@ def dq4_domain_values(
     # Pagos
     pg = dfs["pagos"].copy()
     bad_pg = pg["monto_pago"].apply(
-        lambda v: v is None or (isinstance(v, float) and v <= 0)
+        lambda v: pd.isna(v) or v <= 0
     )
     for _, row in pg[bad_pg].iterrows():
         errors.append(

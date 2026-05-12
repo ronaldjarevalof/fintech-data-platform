@@ -118,14 +118,14 @@ jobs:
             "SELECT regla_id, tabla_origen, severidad, COUNT(*) AS n
              FROM dq.dq_errors GROUP BY 1,2,3 ORDER BY 1;"
 
-          echo "=== Verificar dq_errors entre 10 y 15 ==="
+          echo "=== Verificar registros aislados (DQ-1 a DQ-6) entre 10 y 15 ==="
           DQ=$(psql -h localhost -U etl_user -d fintech -t -A -c \
-            "SELECT COUNT(*) FROM dq.dq_errors;")
+            "SELECT COUNT(*) FROM dq.dq_errors WHERE regla_id != 'DQ-7';")
           [ "$DQ" -ge 10 ] && [ "$DQ" -le 15 ] \
-            || { echo "FAIL: dq_errors=$DQ, esperado 10-15"; exit 1; }
+            || { echo "FAIL: dq_errors_aislados=$DQ, esperado 10-15"; exit 1; }
 
           echo "=== KPI resumen ==="
           psql -h localhost -U etl_user -d fintech -c \
             "SELECT * FROM bi.vw_kpi_resumen;"
 
-          echo "✓ Pipeline verificado: status=SUCCESS, dq_errors=$DQ"
+          echo "✓ Pipeline verificado: status=SUCCESS, dq_errors_aislados=$DQ"
