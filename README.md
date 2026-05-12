@@ -189,4 +189,9 @@ La configuración de pytest, coverage y ruff está en `pyproject.toml`.
 
 ## Documento de diseño
 
-`docs/Diseno_Solucion_FINTECH.pdf` — con arquitectura completa, justificaciones y propuesta de evolución AWS.
+`docs/Diseno_Solucion.pdf` — con arquitectura completa, justificaciones y propuesta de evolución AWS.
+
+## Diagramas de diseño
+
+`docs/arquitectura_mvp.drawio` — Diagrama de Arquitectura MVP - Entrega Local.
+`docs/arquitectura_aws.drawio` — Diagrama de Arquitectura AWS - Evolución del proyecto.

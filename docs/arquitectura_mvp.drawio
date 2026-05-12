@@ -1,0 +1,418 @@
+<mxfile host="app.diagrams.net" agent="Claude" pages="2">
+  <diagram name="MVP-Local" id="mvp-local">
+    <mxGraphModel dx="1571" dy="826" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=22;fontStyle=1;fontColor=#1F4E79;" value="Arquitectura MVP — Data Platform (entrega local)" vertex="1">
+          <mxGeometry height="40" width="1520" x="40" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=2;fontColor=#666666;" value="Python · PostgreSQL 18 · Docker Compose · Power BI Desktop" vertex="1">
+          <mxGeometry height="20" width="1520" x="40" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zone-sources" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2F2F2;strokeColor=#999999;dashed=1;verticalAlign=top;fontStyle=1;fontColor=#666666;fontSize=11;align=left;spacingLeft=10;spacingTop=8;" value="1. FUENTES" vertex="1">
+          <mxGeometry height="320" width="220" x="40" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="csv-clientes" parent="1" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#FFF2CC;strokeColor=#D6B656;fontSize=11;" value="clientes.csv&#xa;&#xa;121 filas" vertex="1">
+          <mxGeometry height="80" width="140" x="80" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="csv-creditos" parent="1" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#FFF2CC;strokeColor=#D6B656;fontSize=11;" value="creditos.csv&#xa;&#xa;262 filas" vertex="1">
+          <mxGeometry height="80" width="140" x="80" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="csv-pagos" parent="1" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#FFF2CC;strokeColor=#D6B656;fontSize=11;" value="pagos.csv&#xa;&#xa;1.202 filas" vertex="1">
+          <mxGeometry height="80" width="140" x="80" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="zone-etl" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F0FA;strokeColor=#2E75B6;dashed=1;verticalAlign=top;fontStyle=1;fontColor=#1F4E79;fontSize=11;align=left;spacingLeft=10;spacingTop=8;" value="2. PIPELINE ETL (Python 3.11)" vertex="1">
+          <mxGeometry height="320" width="280" x="300" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="etl-extract" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=11;" value="extract.py&#xa;Lectura CSV → DataFrame" vertex="1">
+          <mxGeometry height="50" width="240" x="320" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="etl-transform" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=11;" value="transform.py&#xa;Tipos · catálogos · derivaciones" vertex="1">
+          <mxGeometry height="50" width="240" x="320" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="etl-validate" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=11;" value="validate.py&#xa;7 reglas de calidad" vertex="1">
+          <mxGeometry height="50" width="240" x="320" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="etl-load" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=11;" value="load.py&#xa;Carga a esquemas raw → stg → dwh" vertex="1">
+          <mxGeometry height="50" width="240" x="320" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="zone-db" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2F0E8;strokeColor=#5FA678;dashed=1;verticalAlign=top;fontStyle=1;fontColor=#2D6B47;fontSize=11;align=left;spacingLeft=10;spacingTop=8;" value="3. POSTGRESQL 18 — Almacenamiento por capas" vertex="1">
+          <mxGeometry height="640" width="380" x="620" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="db-raw" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=11;fontStyle=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;" value="Esquema RAW — datos crudos" vertex="1">
+          <mxGeometry height="80" width="340" x="640" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="db-raw-list" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" value="raw_clientes  ·  raw_creditos  ·  raw_pagos&#xa;+ columnas técnicas (_ingested_at, _source_file)" vertex="1">
+          <mxGeometry height="50" width="340" x="640" y="185" as="geometry" />
+        </mxCell>
+        <mxCell id="db-stg" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=11;fontStyle=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;" value="Esquema STG — limpieza y normalización" vertex="1">
+          <mxGeometry height="80" width="340" x="640" y="255" as="geometry" />
+        </mxCell>
+        <mxCell id="db-stg-list" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" value="stg_clientes  ·  stg_creditos  ·  stg_pagos&#xa;tipos correctos, catálogos normalizados" vertex="1">
+          <mxGeometry height="50" width="340" x="640" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="db-dwh" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=11;fontStyle=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;" value="Esquema DWH — modelo dimensional (estrella)" vertex="1">
+          <mxGeometry height="180" width="340" x="640" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="db-dwh-facts" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D79B00;fontSize=10;" value="Hechos&#xa;fact_credito&#xa;fact_pago" vertex="1">
+          <mxGeometry height="60" width="140" x="660" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="db-dwh-dims" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D79B00;fontSize=10;" value="Dimensiones&#xa;dim_cliente · dim_producto&#xa;dim_canal · dim_tiempo&#xa;dim_estado_credito&#xa;dim_metodo_pago" vertex="1">
+          <mxGeometry height="90" width="140" x="820" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="db-dwh-grain" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;fontStyle=2;fontColor=#666666;" value="Granularidad: fact_credito = 1 crédito · fact_pago = 1 transacción" vertex="1">
+          <mxGeometry height="30" width="340" x="640" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="db-bi" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=11;fontStyle=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;" value="Esquema BI — vistas analíticas" vertex="1">
+          <mxGeometry height="100" width="340" x="640" y="545" as="geometry" />
+        </mxCell>
+        <mxCell id="db-bi-list" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" value="vw_cartera_vigente · vw_morosidad_por_producto&#xa;vw_efectividad_canal · vw_cosecha_morosidad (mat.)&#xa;vw_pagos_diarios · vw_kpi_resumen (mat.)" vertex="1">
+          <mxGeometry height="70" width="340" x="640" y="570" as="geometry" />
+        </mxCell>
+        <mxCell id="db-dq" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8CECC;strokeColor=#B85450;fontSize=11;fontStyle=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;" value="Esquema DQ — calidad y auditoría" vertex="1">
+          <mxGeometry height="80" width="340" x="640" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="db-dq-list" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" value="dq_errors (JSONB con payload) · etl_runs (auditoría)" vertex="1">
+          <mxGeometry height="50" width="340" x="640" y="685" as="geometry" />
+        </mxCell>
+        <mxCell id="zone-bi" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F4E1F4;strokeColor=#9673A6;dashed=1;verticalAlign=top;fontStyle=1;fontColor=#6F3B6F;fontSize=11;align=left;spacingLeft=10;spacingTop=8;" value="4. CONSUMO / BI" vertex="1">
+          <mxGeometry height="320" width="240" x="1040" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="powerbi" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1D5E7;strokeColor=#9673A6;fontSize=11;" value="Power BI Desktop&#xa;&#xa;Modelo semántico&#xa;7 KPIs · 4 páginas&#xa;Medidas DAX · RLS" vertex="1">
+          <mxGeometry height="110" width="200" x="1060" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="sql-clients" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1D5E7;strokeColor=#9673A6;fontSize=11;" value="Cliente SQL&lt;br&gt;(DBeaver, PgAdmin, psql)&lt;br&gt;&lt;br&gt;Consultas ad-hoc&lt;br&gt;analistas técnicos" vertex="1">
+          <mxGeometry height="110" width="200" x="1060" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="zone-ops" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF4E6;strokeColor=#D79B00;dashed=1;verticalAlign=top;fontStyle=1;fontColor=#8B6914;fontSize=11;align=left;spacingLeft=10;spacingTop=8;" value="5. CALIDAD Y OBSERVABILIDAD" vertex="1">
+          <mxGeometry height="320" width="240" x="1320" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="logs" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D79B00;fontSize=11;" value="Logging estructurado&#xa;&#xa;JSON con run_id&#xa;trazabilidad por etapa&#xa;timestamps" vertex="1">
+          <mxGeometry height="110" width="200" x="1340" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="dq-metrics" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D79B00;fontSize=11;" value="Métricas de calidad&#xa;&#xa;tasa de calidad %&#xa;errores por regla&#xa;tiempo por etapa" vertex="1">
+          <mxGeometry height="110" width="200" x="1340" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="zone-infra" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFEFEF;strokeColor=#666666;dashed=1;verticalAlign=top;fontStyle=1;fontColor=#333333;fontSize=11;align=left;spacingLeft=10;spacingTop=8;" value="6. INFRAESTRUCTURA — Docker Compose (un comando: docker compose up)" vertex="1">
+          <mxGeometry height="280" width="520" x="1040" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="docker-pg" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DDDDDD;strokeColor=#666666;fontSize=11;" value="Container: postgres:16&#xa;&#xa;volumen persistente&#xa;pg_dump diario&#xa;pg_stat_statements" vertex="1">
+          <mxGeometry height="110" width="200" x="1060" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="docker-etl" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DDDDDD;strokeColor=#666666;fontSize=11;" value="Container: etl&#xa;Python 3.11 + pandas&#xa;&#xa;ejecuta main.py&#xa;variables vía .env" vertex="1">
+          <mxGeometry height="110" width="200" x="1340" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="security" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontStyle=2;fontColor=#333333;" value="Seguridad: 5 roles (etl_loader, bi_reader, analyst_readonly, dba_admin, audit_reader) · enmascaramiento PII en vistas · principio de menor privilegio" vertex="1">
+          <mxGeometry height="40" width="480" x="1060" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="backup" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontStyle=2;fontColor=#333333;" value="Backup: pg_dump diario + retención 7 backups · PITR vía WAL · script test_restore.sh para validar RTO" vertex="1">
+          <mxGeometry height="40" width="480" x="1060" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="arr1" edge="1" parent="1" source="csv-creditos" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#1F4E79;strokeWidth=2;endArrow=block;endFill=1;" target="etl-extract">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-etl1" edge="1" parent="1" source="etl-extract" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2E75B6;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="etl-transform">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-etl2" edge="1" parent="1" source="etl-transform" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2E75B6;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="etl-validate">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-etl3" edge="1" parent="1" source="etl-validate" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2E75B6;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="etl-load">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-pg1" edge="1" parent="1" source="etl-load" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#5FA678;strokeWidth=2;endArrow=block;endFill=1;dashed=0;" target="db-raw">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-layer1" edge="1" parent="1" source="db-raw" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#5FA678;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="db-stg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-layer2" edge="1" parent="1" source="db-stg" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#5FA678;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="db-dwh">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-layer3" edge="1" parent="1" source="db-dwh" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#5FA678;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="db-bi">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-dq" edge="1" parent="1" source="etl-validate" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#B85450;strokeWidth=2;dashed=1;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="db-dq">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="700" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dq-label" parent="1" style="text;html=1;strokeColor=none;fillColor=#FFFFFF;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=9;fontColor=#B85450;fontStyle=2;" value="registros&#xa;rechazados" vertex="1">
+          <mxGeometry height="30" width="70" x="590" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-bi-pbi" edge="1" parent="1" source="db-bi" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#9673A6;strokeWidth=2;endArrow=block;endFill=1;exitX=1;exitY=0.3;entryX=0;entryY=0.5;" target="powerbi">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-bi-sql" edge="1" parent="1" source="db-bi" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#9673A6;strokeWidth=2;endArrow=block;endFill=1;exitX=1;exitY=0.7;entryX=0;entryY=0.5;" target="sql-clients">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-logs" edge="1" parent="1" source="etl-load" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#D79B00;strokeWidth=1.5;dashed=1;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="logs">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1310" y="375" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arr-metrics" edge="1" parent="1" source="db-dq" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#D79B00;strokeWidth=1.5;dashed=1;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="dq-metrics">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1010" y="700" />
+              <mxPoint x="1300" y="700" />
+              <mxPoint x="1300" y="355" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend-box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#999999;verticalAlign=top;fontStyle=1;fontSize=10;align=left;spacingLeft=8;spacingTop=4;" value="Leyenda" vertex="1">
+          <mxGeometry height="180" width="220" x="40" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="leg-1" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#1F4E79;" value="━━  Flujo de datos principal" vertex="1">
+          <mxGeometry height="22" width="200" x="55" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="leg-2" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#5FA678;" value="━━  Carga a base de datos" vertex="1">
+          <mxGeometry height="22" width="200" x="55" y="535" as="geometry" />
+        </mxCell>
+        <mxCell id="leg-3" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#B85450;" value="┄┄  Registros rechazados (DQ)" vertex="1">
+          <mxGeometry height="22" width="200" x="55" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="leg-4" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#D79B00;" value="┄┄  Observabilidad (logs/métricas)" vertex="1">
+          <mxGeometry height="22" width="200" x="55" y="585" as="geometry" />
+        </mxCell>
+        <mxCell id="leg-5" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#9673A6;" value="━━  Consumo por usuarios" vertex="1">
+          <mxGeometry height="22" width="200" x="55" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="leg-6" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;fontStyle=2;fontColor=#999999;" value="Versión: 1.0  ·  Mayo 2026" vertex="1">
+          <mxGeometry height="22" width="200" x="55" y="635" as="geometry" />
+        </mxCell>
+        <mxCell id="note" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#D6B656;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;" value="Esta arquitectura representa el MVP entregable. Para crecimiento de volumen, criticidad o usuarios → ver página 2 (Arquitectura Evolucionada AWS Medallion)." vertex="1">
+          <mxGeometry height="40" width="1520" x="40" y="780" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="AWS-Medallion" id="aws-medallion">
+    <mxGraphModel dx="1422" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <!-- TÍTULO -->
+        <mxCell id="title2" value="Arquitectura Evolucionada — TUMIPAY en AWS (Medallion + dbt + DataZone)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=22;fontStyle=1;fontColor=#1F4E79;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1520" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle2" value="S3 (Bronze/Silver/Gold) · DMS · Glue · dbt-redshift · Redshift · Lake Formation · DataZone (fase 2)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=2;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="1520" height="20" as="geometry" />
+        </mxCell>
+        <!-- ============ FUENTES ============ -->
+        <mxCell id="aws-zone-src" value="FUENTES" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2F2F2;strokeColor=#999999;dashed=1;verticalAlign=top;fontStyle=1;fontColor=#666666;fontSize=11;align=left;spacingLeft=10;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="120" width="160" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="oltp" value="OLTP&#xa;RDS / Aurora&#xa;Oracle · SQL Server" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D79B00;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="55" y="160" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="files" value="Archivos&#xa;S3 (landing)&#xa;SFTP · API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D79B00;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="55" y="240" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="streaming" value="Streaming&#xa;Kinesis (opcional)&#xa;fraude, eventos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D79B00;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="55" y="320" width="130" height="60" as="geometry" />
+        </mxCell>
+        <!-- ============ INGESTA ============ -->
+        <mxCell id="aws-zone-ingest" value="1. INGESTA" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF4E6;strokeColor=#D79B00;dashed=1;verticalAlign=top;fontStyle=1;fontColor=#8B6914;fontSize=11;align=left;spacingLeft=10;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="240" y="120" width="180" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="dms" value="AWS DMS&#xa;+ SCT&#xa;&#xa;Full-load + CDC&#xa;sin downtime" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFCC99;strokeColor=#D79B00;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="260" y="170" width="140" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="glue-streaming" value="Glue Streaming&#xa;+ Lambda&#xa;&#xa;archivos · APIs · eventos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFCC99;strokeColor=#D79B00;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="260" y="270" width="140" height="80" as="geometry" />
+        </mxCell>
+        <!-- ============ BRONZE ============ -->
+        <mxCell id="aws-zone-bronze" value="2. BRONZE — Raw inmutable" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F4D4B0;strokeColor=#A0522D;dashed=1;verticalAlign=top;fontStyle=1;fontColor=#8B4513;fontSize=11;align=left;spacingLeft=10;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="460" y="120" width="220" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-bronze" value="S3 Bronze&#xa;&#xa;Parquet · particionado yyyy/mm/dd&#xa;S3 Standard-IA → Glacier +90d&#xa;CMK propia (KMS)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#CD853F;strokeColor=#8B4513;fontSize=10;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="480" y="170" width="180" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="catalog-bronze" value="Glue Catalog&#xa;descubrimiento&#xa;via Athena" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F4D4B0;strokeColor=#A0522D;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="480" y="290" width="180" height="60" as="geometry" />
+        </mxCell>
+        <!-- ============ SILVER ============ -->
+        <mxCell id="aws-zone-silver" value="3. SILVER — Curated · schema enforced" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8E8E8;strokeColor=#808080;dashed=1;verticalAlign=top;fontStyle=1;fontColor=#555555;fontSize=11;align=left;spacingLeft=10;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="720" y="120" width="240" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="glue-job" value="AWS Glue Job (PySpark)&#xa;&#xa;· schema enforcement&#xa;· normalización catálogos&#xa;· Glue Data Quality&#xa;· errores → quarantine" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFCC99;strokeColor=#D79B00;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="740" y="170" width="200" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-silver" value="S3 Silver&#xa;Parquet curated&#xa;S3 Standard · Glue Catalog" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#BFBFBF;strokeColor=#666666;fontSize=10;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="740" y="300" width="200" height="70" as="geometry" />
+        </mxCell>
+        <!-- ============ GOLD ============ -->
+        <mxCell id="aws-zone-gold" value="4. GOLD — Modelo dimensional consumible" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE699;strokeColor=#BF8F00;dashed=1;verticalAlign=top;fontStyle=1;fontColor=#7F5F00;fontSize=11;align=left;spacingLeft=10;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="120" width="280" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="dbt" value="dbt-redshift&#xa;&#xa;· models: dim_*, fact_*, vw_*&#xa;· tests: unique, not_null, relationships&#xa;· dbt docs → S3 + CloudFront&#xa;· snapshots SCD-2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF6B35;strokeColor=#C0392B;fontSize=10;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="170" width="240" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="redshift" value="Amazon Redshift&#xa;DWH dimensional · Serverless o ra3&#xa;DISTKEY/SORTKEY · WLM · Spectrum" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8B339;strokeColor=#BF8F00;fontSize=10;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="300" width="240" height="70" as="geometry" />
+        </mxCell>
+        <!-- ============ CONSUMO ============ -->
+        <mxCell id="aws-zone-consume" value="5. CONSUMO" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F4E1F4;strokeColor=#9673A6;dashed=1;verticalAlign=top;fontStyle=1;fontColor=#6F3B6F;fontSize=11;align=left;spacingLeft=10;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="120" width="240" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="powerbi2" value="Power BI Service&#xa;Gateway + DirectQuery&#xa;RLS · refresh programado" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1D5E7;strokeColor=#9673A6;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1340" y="160" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="athena" value="Athena&#xa;consultas ad-hoc sobre Silver/Bronze" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1D5E7;strokeColor=#9673A6;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1340" y="230" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="sagemaker" value="SageMaker&#xa;ML: scoring crediticio, feature store" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1D5E7;strokeColor=#9673A6;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1340" y="290" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="api" value="API REST&#xa;exposición programática para apps" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1D5E7;strokeColor=#9673A6;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1340" y="350" width="200" height="40" as="geometry" />
+        </mxCell>
+        <!-- ============ ORQUESTACIÓN ============ -->
+        <mxCell id="orchestration-zone" value="6. ORQUESTACIÓN Y AUTOMATIZACIÓN" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F0FA;strokeColor=#2E75B6;dashed=1;verticalAlign=top;fontStyle=1;fontColor=#1F4E79;fontSize=11;align=left;spacingLeft=10;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="240" y="430" width="720" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="eventbridge" value="EventBridge Scheduler&#xa;triggers cron · eventos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="260" y="470" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="stepfunctions" value="Step Functions&#xa;DAG: DMS → Glue → dbt → refresh views&#xa;retry · fallback · paralelismo" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="490" y="470" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="secrets" value="Secrets Manager&#xa;credenciales · rotación automática" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DAE8FC;strokeColor=#6C8EBF;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="760" y="470" width="190" height="60" as="geometry" />
+        </mxCell>
+        <!-- ============ GOBIERNO ============ -->
+        <mxCell id="governance-zone" value="7. GOBIERNO DE DATOS Y CALIDAD" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2F0E8;strokeColor=#5FA678;dashed=1;verticalAlign=top;fontStyle=1;fontColor=#2D6B47;fontSize=11;align=left;spacingLeft=10;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="240" y="580" width="720" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="lakeformation" value="Lake Formation&#xa;permisos column/row level&#xa;LF-tags por clasificación PII" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="260" y="620" width="220" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="datazone" value="AWS DataZone (fase 2 · mes 6+)&#xa;dominios de datos · catálogo de productos&#xa;glossary · ownership · Data Mesh" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="620" width="220" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="gluedq" value="Glue Data Quality&#xa;reglas declarativas a nivel archivo&#xa;dbt tests para modelo analítico" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="740" y="620" width="200" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="quarantine" value="S3 Quarantine + tabla Redshift dq_errors · retención larga · alertas SNS por umbral · reportes de calidad" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontStyle=2;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="260" y="700" width="680" height="30" as="geometry" />
+        </mxCell>
+        <!-- ============ SEGURIDAD Y MONITOREO ============ -->
+        <mxCell id="security-zone" value="8. SEGURIDAD Y MONITOREO TRANSVERSAL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8CECC;strokeColor=#B85450;dashed=1;verticalAlign=top;fontStyle=1;fontColor=#8B0000;fontSize=11;align=left;spacingLeft=10;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="430" width="560" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="iam" value="IAM&#xa;roles por servicio&#xa;menor privilegio" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8CECC;strokeColor=#B85450;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="470" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="kms" value="KMS&#xa;CMK por capa&#xa;cifrado at-rest" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8CECC;strokeColor=#B85450;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1200" y="470" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="vpc" value="VPC privada&#xa;PrivateLink&#xa;sin IP pública" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8CECC;strokeColor=#B85450;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="470" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="cloudwatch" value="CloudWatch&#xa;logs · métricas · alarmas&#xa;dashboards operativos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8CECC;strokeColor=#B85450;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="550" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="cloudtrail" value="CloudTrail + GuardDuty&#xa;auditoría · threat detection&#xa;Security Hub" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8CECC;strokeColor=#B85450;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1200" y="550" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="backup-aws" value="Aurora snapshots&#xa;S3 versioning + Glacier&#xa;cross-region · 35 días" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8CECC;strokeColor=#B85450;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="550" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="grafana" value="Grafana (opcional) sobre CloudWatch · dbt artifacts en S3 para observabilidad de transformaciones" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontStyle=2;fontColor=#8B0000;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="640" width="520" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cost-tag" value="Tag obligatorio costcenter en todos los recursos · imputación de costos por área de negocio" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontStyle=2;fontColor=#8B0000;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="670" width="520" height="30" as="geometry" />
+        </mxCell>
+        <!-- ============ FLECHAS PRINCIPALES ============ -->
+        <!-- OLTP → DMS -->
+        <mxCell id="a1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#1F4E79;strokeWidth=2;endArrow=block;endFill=1;" edge="1" parent="1" source="oltp" target="dms">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- Files → Glue Streaming -->
+        <mxCell id="a2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#1F4E79;strokeWidth=2;endArrow=block;endFill=1;" edge="1" parent="1" source="files" target="glue-streaming">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- Streaming → Glue Streaming -->
+        <mxCell id="a3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#1F4E79;strokeWidth=2;endArrow=block;endFill=1;" edge="1" parent="1" source="streaming" target="glue-streaming">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- DMS → Bronze -->
+        <mxCell id="a4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#A0522D;strokeWidth=2;endArrow=block;endFill=1;" edge="1" parent="1" source="dms" target="s3-bronze">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- Glue Streaming → Bronze -->
+        <mxCell id="a5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#A0522D;strokeWidth=2;endArrow=block;endFill=1;" edge="1" parent="1" source="glue-streaming" target="s3-bronze">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- Bronze → Glue Job -->
+        <mxCell id="a6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;strokeWidth=3;endArrow=block;endFill=1;" edge="1" parent="1" source="s3-bronze" target="glue-job">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- Glue Job → Silver -->
+        <mxCell id="a7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="glue-job" target="s3-silver">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- Silver → dbt -->
+        <mxCell id="a8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#BF8F00;strokeWidth=3;endArrow=block;endFill=1;" edge="1" parent="1" source="s3-silver" target="dbt">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- dbt → Redshift -->
+        <mxCell id="a9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#BF8F00;strokeWidth=2;endArrow=block;endFill=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="dbt" target="redshift">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- Redshift → Power BI -->
+        <mxCell id="a10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#9673A6;strokeWidth=2;endArrow=block;endFill=1;" edge="1" parent="1" source="redshift" target="powerbi2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- Silver → Athena -->
+        <mxCell id="a11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#9673A6;strokeWidth=1.5;dashed=1;endArrow=block;endFill=1;" edge="1" parent="1" source="s3-silver" target="athena">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="975" y="335" />
+              <mxPoint x="975" y="255" />
+              <mxPoint x="1310" y="255" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <!-- Redshift → SageMaker -->
+        <mxCell id="a12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#9673A6;strokeWidth=2;endArrow=block;endFill=1;" edge="1" parent="1" source="redshift" target="sagemaker">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- Redshift → API -->
+        <mxCell id="a13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#9673A6;strokeWidth=2;endArrow=block;endFill=1;" edge="1" parent="1" source="redshift" target="api">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- ============ LEYENDA Y NOTAS ============ -->
+        <mxCell id="legend-aws" value="Capas Medallion" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#999999;verticalAlign=top;fontStyle=1;fontSize=11;align=left;spacingLeft=8;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="40" y="430" width="180" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="legA" value="🟫  Bronze: Parquet raw inmutable&#xa;     S3 Standard-IA · Glacier 90d" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="50" y="460" width="160" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="legB" value="⬜  Silver: Parquet curated&#xa;     S3 Standard + Glue Catalog" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="50" y="500" width="160" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="legC" value="🟨  Gold: Redshift dimensional&#xa;     hot · acceso BI" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="50" y="540" width="160" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="key-decisions" value="Decisiones clave" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#999999;verticalAlign=top;fontStyle=1;fontSize=11;align=left;spacingLeft=8;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="40" y="600" width="180" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="dec1" value="· Glue (Python) para B→S&#xa;  parsing y validaciones Python&#xa;· dbt (SQL) para S→G&#xa;  modelo dimensional + tests&#xa;· DataZone solo en mes 6+&#xa;  cuando hay múltiples dominios" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="50" y="630" width="160" height="100" as="geometry" />
+        </mxCell>
+        <!-- Nota inferior -->
+        <mxCell id="note2" value="Escalabilidad: arquitectura cloud-ready · 100x volumen → Redshift Serverless 8 RPU · 1000x → ra3 cluster + Concurrency Scaling · streaming D-1 → Kinesis + Firehose. Ver sección 10.8 del documento de diseño." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#D6B656;fontSize=10;fontStyle=2;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="770" width="1520" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
