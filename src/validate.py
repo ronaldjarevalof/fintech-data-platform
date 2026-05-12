@@ -150,13 +150,30 @@ def dq2_referential_integrity(
 # ---------------------------------------------------------------------------
 # DQ-3: Normalización de catálogos (valores no mapeables)
 # La corrección ya ocurrió en transform.py; aquí se aíslan los no mapeables.
-# Acción: Aislar registros con estado no reconocido
+# Cubre: estado_*, producto, canal, metodo_pago.
+# Acción: Aislar registros con valor de catálogo no reconocido
 # ---------------------------------------------------------------------------
+
+# Catálogos de dimensiones semilla — deben coincidir con _PRODUCTO_NORM,
+# _CANAL_NORM y _METODO_NORM en load.py para evitar drops silenciosos en DWH.
+_VALID_PRODUCTOS: frozenset[str] = frozenset({
+    "microcredito", "libre inversion", "capital trabajo", "consumo",
+})
+_VALID_CANALES: frozenset[str] = frozenset({"aliado", "web", "app"})
+_VALID_METODOS_PAGO: frozenset[str] = frozenset({
+    "pse", "efecty", "transferencia", "tarjeta",
+})
+
 
 def dq3_catalog_normalization(
     dfs: dict[str, pd.DataFrame], run_id: str
 ) -> tuple[dict[str, pd.DataFrame], list[dict]]:
     """Aísla registros cuyos valores de catálogo no pudieron normalizarse.
+
+    Valida estados (via flags de transform.py) y también producto, canal y
+    metodo_pago contra los catálogos semilla del DWH. Sin esta validación,
+    valores no reconocidos pasarían DQ pero desaparecerían silenciosamente
+    del DWH al fallar el lookup de SK en load_dwh.
 
     Args:
         dfs: DataFrames post-DQ2.
@@ -189,6 +206,36 @@ def dq3_catalog_normalization(
             )
         )
 
+    # Créditos: producto fuera del catálogo semilla
+    if "producto" in cr.columns:
+        inv_prod = cr["producto"].str.strip().str.lower().apply(
+            lambda v: v not in _VALID_PRODUCTOS
+        )
+        inv_prod = inv_prod & ~inv_cr  # no duplicar los ya aislados por estado
+        for _, row in cr[inv_prod].iterrows():
+            errors.append(
+                _build_error(
+                    run_id, "DQ-3", "raw_creditos", "ERROR",
+                    f"producto no reconocido: '{row['producto']}'", row,
+                )
+            )
+        inv_cr = inv_cr | inv_prod
+
+    # Créditos: canal fuera del catálogo semilla
+    if "canal" in cr.columns:
+        inv_canal = cr["canal"].str.strip().str.lower().apply(
+            lambda v: v not in _VALID_CANALES
+        )
+        inv_canal = inv_canal & ~inv_cr
+        for _, row in cr[inv_canal].iterrows():
+            errors.append(
+                _build_error(
+                    run_id, "DQ-3", "raw_creditos", "ERROR",
+                    f"canal no reconocido: '{row['canal']}'", row,
+                )
+            )
+        inv_cr = inv_cr | inv_canal
+
     # Pagos: estado_pago inválido
     pg = dfs["pagos"]
     inv_pg = ~pg.get("_estado_pago_valido", pd.Series(True, index=pg.index)).astype(bool)
@@ -199,6 +246,21 @@ def dq3_catalog_normalization(
                 f"estado_pago no reconocido: '{row['estado_pago']}'", row,
             )
         )
+
+    # Pagos: metodo_pago fuera del catálogo semilla
+    if "metodo_pago" in pg.columns:
+        inv_metodo = pg["metodo_pago"].str.strip().str.lower().apply(
+            lambda v: v not in _VALID_METODOS_PAGO
+        )
+        inv_metodo = inv_metodo & ~inv_pg
+        for _, row in pg[inv_metodo].iterrows():
+            errors.append(
+                _build_error(
+                    run_id, "DQ-3", "raw_pagos", "ERROR",
+                    f"metodo_pago no reconocido: '{row['metodo_pago']}'", row,
+                )
+            )
+        inv_pg = inv_pg | inv_metodo
 
     return {
         "clientes": cl[~inv_cl].copy(),

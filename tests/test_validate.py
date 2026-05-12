@@ -142,6 +142,33 @@ class TestDQ3CatalogNormalization:
         assert len(errs) == 0
         assert len(valid["creditos"]) == 1
 
+    def test_producto_desconocido_aislado(self):
+        """Producto fuera del catálogo semilla va a dq_errors, no al DWH."""
+        cr = [_creditos(producto="Hipotecario")]
+        valid, errs = dq3_catalog_normalization(_dfs(creditos=cr), RUN_ID)
+        assert len(valid["creditos"]) == 0
+        assert any("Hipotecario" in e["motivo"] for e in errs)
+        assert errs[0]["regla_id"] == "DQ-3"
+
+    def test_canal_desconocido_aislado(self):
+        cr = [_creditos(canal="Presencial")]
+        valid, errs = dq3_catalog_normalization(_dfs(creditos=cr), RUN_ID)
+        assert len(valid["creditos"]) == 0
+        assert any("Presencial" in e["motivo"] for e in errs)
+
+    def test_metodo_pago_desconocido_aislado(self):
+        pg = [_pagos(metodo_pago="Cheque")]
+        valid, errs = dq3_catalog_normalization(_dfs(pagos=pg), RUN_ID)
+        assert len(valid["pagos"]) == 0
+        assert any("Cheque" in e["motivo"] for e in errs)
+
+    def test_producto_case_insensitive(self):
+        """'CONSUMO' en mayúsculas debe ser válido."""
+        cr = [_creditos(producto="CONSUMO")]
+        valid, errs = dq3_catalog_normalization(_dfs(creditos=cr), RUN_ID)
+        assert len(valid["creditos"]) == 1
+        assert len(errs) == 0
+
 
 # ---------------------------------------------------------------------------
 # DQ-4: Validación de dominio
