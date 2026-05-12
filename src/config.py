@@ -29,4 +29,4 @@ CSV_PAGOS: Path = DATA_RAW_PATH / "pagos.csv"
 
 # Rango del calendario para dim_tiempo
 DIM_TIEMPO_DESDE = "2023-01-01"
-DIM_TIEMPO_HASTA = "2027-12-31"
+DIM_TIEMPO_HASTA = "2030-12-31"

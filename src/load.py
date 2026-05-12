@@ -471,6 +471,7 @@ def load_dwh(
         # 2. dim_tiempo
         dt_df = _generate_dim_tiempo()
         counts["dim_tiempo"] = _to_sql(dt_df, "dim_tiempo", "dwh", conn)
+        valid_tiempo_sks: set[int] = set(dt_df["tiempo_sk"])
 
         # 3. Dimensiones semilla (dentro de la misma transacción)
         _load_dim_seed(conn, loaded_at)
@@ -525,6 +526,25 @@ def load_dwh(
         cr["tiempo_vencimiento_sk"] = cr["fecha_vencimiento"].apply(
             lambda d: int(d.strftime("%Y%m%d")) if isinstance(d, date) else None
         )
+        # Nullable time SKs: si la fecha es válida pero fuera del rango de
+        # dim_tiempo, convertir a None en lugar de dejar un FK sin referencia.
+        for col in ("tiempo_desembolso_sk", "tiempo_vencimiento_sk"):
+            cr[col] = cr[col].apply(
+                lambda v: v if (pd.isna(v) or int(v) in valid_tiempo_sks) else None
+            )
+        # tiempo_solicitud_sk es NOT NULL en la tabla — descartar filas cuya
+        # fecha de solicitud esté fuera del rango del calendario.
+        out_of_range_cr = cr["tiempo_solicitud_sk"].apply(
+            lambda v: not pd.isna(v) and int(v) not in valid_tiempo_sks
+        )
+        if out_of_range_cr.any():
+            _log.warning(
+                "fact_credito_fecha_fuera_rango",
+                filas_descartadas=int(out_of_range_cr.sum()),
+                credito_ids=cr.loc[out_of_range_cr, "credito_id"].tolist(),
+            )
+            cr = cr[~out_of_range_cr].copy()
+
         cr["dias_mora"] = cr.apply(
             lambda row: compute_dias_mora(
                 row["estado_credito"], row["fecha_vencimiento"], fecha_corte
@@ -539,7 +559,8 @@ def load_dwh(
             "tiempo_vencimiento_sk", "monto_aprobado", "plazo_meses",
             "tasa_interes_mensual", "dias_mora", "_loaded_at",
         ]
-        sk_cols_cr = ["cliente_sk", "producto_sk", "canal_sk", "estado_credito_sk"]
+        sk_cols_cr = ["cliente_sk", "producto_sk", "canal_sk", "estado_credito_sk",
+                      "tiempo_solicitud_sk"]
         null_sk_cr = cr[sk_cols_cr].isna().any(axis=1)
         if null_sk_cr.any():
             _log.warning(
@@ -567,6 +588,18 @@ def load_dwh(
         pg["tiempo_pago_sk"] = pg["fecha_pago"].apply(
             lambda d: int(d.strftime("%Y%m%d")) if isinstance(d, date) else None
         )
+        # Descartar pagos cuya fecha esté fuera del rango del calendario.
+        out_of_range_pg = pg["tiempo_pago_sk"].apply(
+            lambda v: not pd.isna(v) and int(v) not in valid_tiempo_sks
+        )
+        if out_of_range_pg.any():
+            _log.warning(
+                "fact_pago_fecha_fuera_rango",
+                filas_descartadas=int(out_of_range_pg.sum()),
+                pago_ids=pg.loc[out_of_range_pg, "pago_id"].tolist(),
+            )
+            pg = pg[~out_of_range_pg].copy()
+
         pg["_loaded_at"] = loaded_at
         if "flag_referencia_duplicada" not in pg.columns:
             pg["flag_referencia_duplicada"] = False
