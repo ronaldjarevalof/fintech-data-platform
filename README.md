@@ -1,6 +1,6 @@
 # FINTECH Data Platform
 
-![CI](https://github.com/ronald-arevalo/fintech-data-platform/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/ronaldjarevalof/fintech-data-platform/actions/workflows/ci.yml/badge.svg)
 
 Solución de datos para FINTECH
 
@@ -189,4 +189,4 @@ La configuración de pytest, coverage y ruff está en `pyproject.toml`.
 
 ## Documento de diseño
 
-`docs/Diseno_Solucion_FINTECH_Ronald_Arevalo.pdf` — 47 páginas con arquitectura completa, justificaciones y propuesta de evolución AWS.
+`docs/Diseno_Solucion_FINTECH.pdf` — con arquitectura completa, justificaciones y propuesta de evolución AWS.

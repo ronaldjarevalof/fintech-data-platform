@@ -1,8 +1,5 @@
 # Diccionario de Datos — FINTECH Data Platform
 
-Proyecto: Prueba técnica Data Platform Engineer Lead — Revolutiva  
-Candidato: Ronald Arévalo
-
 ---
 
 ## Esquema `raw` — Ingesta cruda
