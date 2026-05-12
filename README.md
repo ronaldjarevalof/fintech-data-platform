@@ -194,4 +194,5 @@ La configuración de pytest, coverage y ruff está en `pyproject.toml`.
 ## Diagramas de diseño
 
 `docs/arquitectura_mvp.drawio` — Diagrama de Arquitectura MVP - Entrega Local.
+
 `docs/arquitectura_aws.drawio` — Diagrama de Arquitectura AWS - Evolución del proyecto.
