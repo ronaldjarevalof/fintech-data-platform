@@ -130,7 +130,7 @@ class TestTransformClientes:
         }])
         out = transform_clientes(df)
         assert out.iloc[0]["estado_cliente"] == "Activo"
-        assert out.iloc[0]["_estado_cliente_valido"] is True
+        assert out.iloc[0]["_estado_cliente_valido"] == True
 
     def test_normaliza_en_revision(self):
         df = self._make_df([{
@@ -163,7 +163,7 @@ class TestTransformClientes:
             "estado_cliente": "Desconocido"
         }])
         out = transform_clientes(df)
-        assert out.iloc[0]["_estado_cliente_valido"] is False
+        assert out.iloc[0]["_estado_cliente_valido"] == False
 
 
 # ---------------------------------------------------------------------------
@@ -194,7 +194,7 @@ class TestTransformCreditos:
         }])
         out = transform_creditos(df)
         assert out.iloc[0]["estado_credito"] == "Mora"
-        assert out.iloc[0]["_estado_credito_valido"] is True
+        assert out.iloc[0]["_estado_credito_valido"] == True
 
     def test_tasa_nula_queda_none(self):
         df = self._make_df([{
@@ -225,7 +225,7 @@ class TestTransformCreditos:
             "fecha_solicitud": "2024-05-11", "producto": "Libre inversion"
         }])
         out = transform_creditos(df)
-        assert out.iloc[0]["_estado_credito_valido"] is False
+        assert out.iloc[0]["_estado_credito_valido"] == False
 
 
 # ---------------------------------------------------------------------------

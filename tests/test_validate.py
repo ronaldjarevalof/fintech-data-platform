@@ -106,7 +106,7 @@ class TestDQ1PKUniqueness:
 class TestDQ2ReferentialIntegrity:
     def test_credito_huerfano_aislado(self):
         cr = [_creditos(cliente_id="C9999")]  # cliente no existe
-        valid, errs = dq2_referential_integrity(_dfs(creditos=cr), RUN_ID)
+        valid, errs = dq2_referential_integrity(_dfs(creditos=cr, pagos=[]), RUN_ID)
         assert len(valid["creditos"]) == 0
         assert len(errs) == 1
         assert "C9999" in errs[0]["motivo"]
