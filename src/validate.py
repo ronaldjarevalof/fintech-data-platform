@@ -340,16 +340,29 @@ def dq5_temporal_coherence(
 
 # ---------------------------------------------------------------------------
 # DQ-6: No nulidad de campos críticos
-# Créditos: fecha_solicitud, monto_aprobado (ya cubierto DQ-4/5)
-# Créditos: tasa_interes_mensual nula
-# Pagos: monto_pago, fecha_pago, credito_id
+# Cubre todos los campos NOT NULL de las tablas staging que no están
+# ya garantizados por DQ-1 a DQ-5. Aísla cualquier registro que llegue
+# con un valor nulo en una columna que Postgres rechazaría.
 # Acción: Aislar registros incompletos
 # ---------------------------------------------------------------------------
+
+def _is_blank(v: object) -> bool:
+    """Retorna True si el valor es nulo, NaN o cadena vacía."""
+    try:
+        if pd.isna(v):
+            return True
+    except (TypeError, ValueError):
+        pass
+    return str(v).strip() == ""
+
 
 def dq6_not_null_critical(
     dfs: dict[str, pd.DataFrame], run_id: str
 ) -> tuple[dict[str, pd.DataFrame], list[dict]]:
-    """Aísla registros con campos críticos nulos.
+    """Aísla registros con campos NOT NULL de staging que sean nulos o vacíos.
+
+    Cubre todos los campos NOT NULL que los pasos DQ-1 a DQ-5 no garantizan,
+    previniendo cualquier fallo de integridad en la carga a staging.
 
     Args:
         dfs: DataFrames post-DQ5.
@@ -360,31 +373,63 @@ def dq6_not_null_critical(
     """
     errors: list[dict] = []
 
-    # Créditos: tasa_interes_mensual nula (H9)
+    # ── Clientes ──────────────────────────────────────────────────────────────
+    cl = dfs["clientes"]
+    bad_cl_idx: set[int] = set()
+    for col in ("cliente_id", "tipo_documento", "nombres"):
+        if col not in cl.columns:
+            continue
+        mask = cl[col].apply(_is_blank)
+        for idx, row in cl[mask].iterrows():
+            errors.append(_build_error(run_id, "DQ-6", "raw_clientes", "ERROR",
+                                       f"{col} nulo o vacío", row))
+            bad_cl_idx.add(idx)
+    cl_clean = cl.drop(index=list(bad_cl_idx)).copy()
+
+    # ── Créditos ──────────────────────────────────────────────────────────────
     cr = dfs["creditos"]
-    bad_cr = cr["tasa_interes_mensual"].isna()
-    for _, row in cr[bad_cr].iterrows():
-        errors.append(
-            _build_error(
-                run_id, "DQ-6", "raw_creditos", "ERROR",
-                "tasa_interes_mensual nula", row,
-            )
-        )
-    cr_clean = cr[~bad_cr].copy()
+    bad_cr_idx: set[int] = set()
 
-    # Pagos: credito_id vacío (edge case defensivo)
+    # tasa nula (H9 — hallazgo documentado)
+    tasa_mask = cr["tasa_interes_mensual"].isna()
+    for _, row in cr[tasa_mask].iterrows():
+        errors.append(_build_error(run_id, "DQ-6", "raw_creditos", "ERROR",
+                                   "tasa_interes_mensual nula", row))
+    bad_cr_idx.update(cr[tasa_mask].index.tolist())
+
+    # producto y canal — NOT NULL en stg_creditos, no cubiertos por DQ-3..5
+    for col in ("producto", "canal"):
+        if col not in cr.columns:
+            continue
+        mask = cr[col].apply(_is_blank)
+        for idx, row in cr[mask].iterrows():
+            errors.append(_build_error(run_id, "DQ-6", "raw_creditos", "ERROR",
+                                       f"{col} nulo o vacío", row))
+            bad_cr_idx.add(idx)
+    cr_clean = cr.drop(index=list(bad_cr_idx)).copy()
+
+    # ── Pagos ─────────────────────────────────────────────────────────────────
     pg = dfs["pagos"]
-    bad_pg = pg["credito_id"].apply(lambda v: not v or str(v).strip() == "")
-    for _, row in pg[bad_pg].iterrows():
-        errors.append(
-            _build_error(
-                run_id, "DQ-6", "raw_pagos", "ERROR",
-                "credito_id nulo o vacío", row,
-            )
-        )
-    pg_clean = pg[~bad_pg].copy()
+    bad_pg_idx: set[int] = set()
 
-    return {"clientes": dfs["clientes"], "creditos": cr_clean, "pagos": pg_clean}, errors
+    # credito_id vacío
+    crid_mask = pg["credito_id"].apply(_is_blank)
+    for idx, row in pg[crid_mask].iterrows():
+        errors.append(_build_error(run_id, "DQ-6", "raw_pagos", "ERROR",
+                                   "credito_id nulo o vacío", row))
+        bad_pg_idx.add(idx)
+
+    # metodo_pago — NOT NULL en stg_pagos, no cubierto por otros pasos
+    if "metodo_pago" in pg.columns:
+        mp_mask = pg["metodo_pago"].apply(_is_blank)
+        for idx, row in pg[mp_mask].iterrows():
+            errors.append(_build_error(run_id, "DQ-6", "raw_pagos", "ERROR",
+                                       "metodo_pago nulo o vacío", row))
+            bad_pg_idx.add(idx)
+
+    pg_clean = pg.drop(index=list(bad_pg_idx)).copy()
+
+    return {"clientes": cl_clean, "creditos": cr_clean, "pagos": pg_clean}, errors
 
 
 # ---------------------------------------------------------------------------
