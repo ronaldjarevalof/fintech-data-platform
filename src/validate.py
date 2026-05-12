@@ -127,15 +127,18 @@ def dq2_referential_integrity(
     # Pagos sin crédito válido
     pagos = dfs["pagos"]
     valid_credito_ids_after = set(creditos_clean["credito_id"].dropna())
-    orphan_pg = ~pagos["credito_id"].isin(valid_credito_ids_after)
-    for _, row in pagos[orphan_pg].iterrows():
-        errors.append(
-            _build_error(
-                run_id, "DQ-2", "raw_pagos", "ERROR",
-                f"credito_id huérfano: {row['credito_id']}", row,
+    if pagos.empty or "credito_id" not in pagos.columns:
+        pagos_clean = pagos.copy()
+    else:
+        orphan_pg = ~pagos["credito_id"].isin(valid_credito_ids_after)
+        for _, row in pagos[orphan_pg].iterrows():
+            errors.append(
+                _build_error(
+                    run_id, "DQ-2", "raw_pagos", "ERROR",
+                    f"credito_id huérfano: {row['credito_id']}", row,
+                )
             )
-        )
-    pagos_clean = pagos[~orphan_pg].copy()
+        pagos_clean = pagos[~orphan_pg].copy()
 
     return {
         "clientes": dfs["clientes"],
